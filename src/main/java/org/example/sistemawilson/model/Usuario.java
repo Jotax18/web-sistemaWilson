@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 public class Usuario {
     DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    private int idUsuario;
+    private Integer idUsuario;
     private String nombre;
     private String apellido;
     private String usuario;
@@ -20,7 +20,7 @@ public class Usuario {
         
     }
 
-    public Usuario(int idUsuario, String nombre, String apellido, String usuario, String email,
+    public Usuario(Integer idUsuario, String nombre, String apellido, String usuario, String email,
                    String clave, Rol rol, int estado, String fecha_creacion) {
         this.idUsuario = idUsuario;
         this.nombre = nombre;
@@ -33,11 +33,11 @@ public class Usuario {
         this.fecha_creacion = fecha_creacion;
     }
 
-    public int getIdUsuario() {
+    public Integer getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(int idUsuario) {
+    public void setIdUsuario(Integer idUsuario) {
         this.idUsuario = idUsuario;
     }
 

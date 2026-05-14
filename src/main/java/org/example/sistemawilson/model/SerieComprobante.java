@@ -1,7 +1,7 @@
 package org.example.sistemawilson.model;
 
 public class SerieComprobante {
-    private int idSerie;
+    private Integer idSerie;
     private TipoComprobante tipoComprobante;
     private String serie;
     private int numeroActual;
@@ -10,18 +10,18 @@ public class SerieComprobante {
 
     }
 
-    public SerieComprobante(int idSerie, TipoComprobante tipoComprobante, String serie, int numeroActual) {
+    public SerieComprobante(Integer idSerie, TipoComprobante tipoComprobante, String serie, int numeroActual) {
         this.idSerie = idSerie;
         this.tipoComprobante = tipoComprobante;
         this.serie = serie;
         this.numeroActual = numeroActual;
     }
 
-    public int getIdSerie() {
+    public Integer getIdSerie() {
         return idSerie;
     }
 
-    public void setIdSerie(int idSerie) {
+    public void setIdSerie(Integer idSerie) {
         this.idSerie = idSerie;
     }
 

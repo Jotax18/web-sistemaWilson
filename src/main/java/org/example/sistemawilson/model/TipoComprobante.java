@@ -1,7 +1,7 @@
 package org.example.sistemawilson.model;
 
 public class TipoComprobante {
-    private int idTipoComprobante;
+    private Integer idTipoComprobante;
     private int codigo;
     private String nombre;
 
@@ -9,17 +9,17 @@ public class TipoComprobante {
 
     }
 
-    public TipoComprobante(int idTipoComprobante, int codigo, String nombre) {
+    public TipoComprobante(Integer idTipoComprobante, int codigo, String nombre) {
         this.idTipoComprobante = idTipoComprobante;
         this.codigo = codigo;
         this.nombre = nombre;
     }
 
-    public int getIdTipoComprobante() {
+    public Integer getIdTipoComprobante() {
         return idTipoComprobante;
     }
 
-    public void setIdTipoComprobante(int idTipoComprobante) {
+    public void setIdTipoComprobante(Integer idTipoComprobante) {
         this.idTipoComprobante = idTipoComprobante;
     }
 

@@ -1,23 +1,23 @@
 package org.example.sistemawilson.model;
 
 public class Rol {
-    private int idRol;
+    private Integer idRol;
     private String nombreRol;
 
     public Rol() {
 
     }
 
-    public Rol(int idRol, String nombreRol) {
+    public Rol(Integer idRol, String nombreRol) {
         this.idRol = idRol;
         this.nombreRol = nombreRol;
     }
 
-    public int getIdRol() {
+    public Integer getIdRol() {
         return idRol;
     }
 
-    public void setIdRol(int idRol) {
+    public void setIdRol(Integer idRol) {
         this.idRol = idRol;
     }
 

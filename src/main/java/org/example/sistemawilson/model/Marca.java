@@ -1,24 +1,24 @@
 package org.example.sistemawilson.model;
 
 public class Marca {
-    private int idMarca;
+    private Integer idMarca;
     private String nombre;
     private int estado;
 
     public Marca() {
     }
 
-    public Marca(int idMarca, String nombre, int estado) {
+    public Marca(Integer idMarca, String nombre, int estado) {
         this.idMarca = idMarca;
         this.nombre = nombre;
         this.estado = estado;
     }
 
-    public int getIdMarca() {
+    public Integer getIdMarca() {
         return idMarca;
     }
 
-    public void setIdMarca(int idMarca) {
+    public void setIdMarca(Integer idMarca) {
         this.idMarca = idMarca;
     }
 

@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 public class IngresoStock {
     DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    private int idIngresoStock;
+    private Integer idIngresoStock;
     private String loteStock;
     private Usuario usuario;
     private String fechaIngreso = LocalDate.now().format(formato);
@@ -15,11 +15,18 @@ public class IngresoStock {
 
     }
 
-    public int getIdIngresoStock() {
+    public IngresoStock(Integer idIngresoStock, String loteStock, Usuario usuario, String fechaIngreso) {
+        this.idIngresoStock = idIngresoStock;
+        this.loteStock = loteStock;
+        this.usuario = usuario;
+        this.fechaIngreso = fechaIngreso;
+    }
+
+    public Integer getIdIngresoStock() {
         return idIngresoStock;
     }
 
-    public void setIdIngresoStock(int idIngresoStock) {
+    public void setIdIngresoStock(Integer idIngresoStock) {
         this.idIngresoStock = idIngresoStock;
     }
 

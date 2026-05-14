@@ -2,7 +2,7 @@ package org.example.sistemawilson.model;
 
 public class PermisoUsuario {
 
-    private int idPermiso;
+    private Integer idPermiso;
     private String nombrePermiso;
     private String descripcionPermiso;
 
@@ -10,17 +10,17 @@ public class PermisoUsuario {
 
     }
 
-    public PermisoUsuario(int idPermiso, String nombrePermiso, String descripcionPermiso) {
+    public PermisoUsuario(Integer idPermiso, String nombrePermiso, String descripcionPermiso) {
         this.idPermiso = idPermiso;
         this.nombrePermiso = nombrePermiso;
         this.descripcionPermiso = descripcionPermiso;
     }
 
-    public int getIdPermiso() {
+    public Integer getIdPermiso() {
         return idPermiso;
     }
 
-    public void setIdPermiso(int idPermiso) {
+    public void setIdPermiso(Integer idPermiso) {
         this.idPermiso = idPermiso;
     }
 

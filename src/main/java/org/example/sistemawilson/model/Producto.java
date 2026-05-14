@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 public class Producto {
     DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    private int idProducto;
+    private Integer idProducto;
     private String codigoSku;
     private String nombre;
     private Marca marca;
@@ -23,7 +23,7 @@ public class Producto {
 
     }
 
-    public Producto(int idProducto, String codigoSku, String nombre, Marca marca, Categoria categoria,String modelo,
+    public Producto(Integer idProducto, String codigoSku, String nombre, Marca marca, Categoria categoria,String modelo,
                     String descripcion, double precioCompra, double precioVenta, int stockActual, int stockMinimo,
                     int estado, String fechaCreacion) {
         this.idProducto = idProducto;
@@ -41,11 +41,11 @@ public class Producto {
         this.fechaCreacion = fechaCreacion;
     }
 
-    public int getIdProducto() {
+    public Integer getIdProducto() {
         return idProducto;
     }
 
-    public void setIdProducto(int idProducto) {
+    public void setIdProducto(Integer idProducto) {
         this.idProducto = idProducto;
     }
 
