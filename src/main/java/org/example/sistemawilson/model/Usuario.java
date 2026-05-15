@@ -1,31 +1,29 @@
 package org.example.sistemawilson.model;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
+
 
 public class Usuario {
-    DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     private Integer idUsuario;
     private String nombre;
     private String apellido;
-    private String usuario;
+    private String username;
     private String email;
     private String clave;
     private Rol rol;
     private int estado;
-    private String fecha_creacion = LocalDate.now().format(formato);
+    private LocalDateTime fecha_creacion;
 
     public Usuario() {
         
     }
 
-    public Usuario(Integer idUsuario, String nombre, String apellido, String usuario, String email,
-                   String clave, Rol rol, int estado, String fecha_creacion) {
+    public Usuario(Integer idUsuario, String nombre, String apellido, String username, String email, String clave, Rol rol, int estado, LocalDateTime fecha_creacion) {
         this.idUsuario = idUsuario;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.usuario = usuario;
+        this.username = username;
         this.email = email;
         this.clave = clave;
         this.rol = rol;
@@ -57,12 +55,12 @@ public class Usuario {
         this.apellido = apellido;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -97,11 +95,11 @@ public class Usuario {
         this.estado = estado;
     }
 
-    public String getFecha_creacion() {
+    public LocalDateTime getFecha_creacion() {
         return fecha_creacion;
     }
 
-    public void setFecha_creacion(String fecha_creacion) {
+    public void setFecha_creacion(LocalDateTime fecha_creacion) {
         this.fecha_creacion = fecha_creacion;
     }
 }
