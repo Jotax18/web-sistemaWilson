@@ -5,9 +5,9 @@ import java.util.List;
 
 public interface UsuarioDAO {
     public boolean registrarUsuario(Usuario usuario);
-    public boolean actualizarPerfilUsuario(int idUsuario, int idRol, int estado);
-    public boolean eliminarUsuario(Integer idUsuario);
+    public boolean actualizarPerfilUsuario(Usuario usuario);
+    public boolean actualizarEstadoUsuario(int idUsuario, int estado);
     public List<Usuario> listarUsuario();
-    public List<Usuario> buscarPorDni(String dniUsuario);
-    public List<Usuario> buscarPorId(int idUsuario);
+    public Usuario buscarPorDni(String dniUsuario);
+    public Usuario buscarPorId(int idUsuario);
 }

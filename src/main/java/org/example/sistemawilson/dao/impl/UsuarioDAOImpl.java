@@ -15,14 +15,13 @@ public class UsuarioDAOImpl implements UsuarioDAO {
    Connection cn = null;
    PreparedStatement psm = null;
    ResultSet rs = null;
-   Usuario user = new Usuario();
-   ArrayList<Usuario> lista = new ArrayList<>();
+
 
     @Override
     public boolean registrarUsuario(Usuario usuario) {
         try {
             cn = MySQLConexion.getConnection();
-            String sql = "INSERT INTO usuario (nombres, apellidos, dni, celular, username, email, clave, id_rol, estado) VALUES (?, ?, ?, ?, ?, ? ?, ?, ?)";
+            String sql = "INSERT INTO usuario (nombres, apellidos, dni, celular, username, email, clave, id_rol, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             psm = cn.prepareStatement(sql);
             psm.setString(1, usuario.getNombres());
             psm.setString(2, usuario.getApellidos());
@@ -49,20 +48,20 @@ public class UsuarioDAOImpl implements UsuarioDAO {
     }
 
     @Override
-    public boolean actualizarPerfilUsuario(int idUsuario, int idRol, int estado) {
+    public boolean actualizarPerfilUsuario(Usuario usuario) {
         try {
             cn = MySQLConexion.getConnection();
-            String sql = "UPDATE usuario SET nombres=?, apellidos=?, dni=?, celular=?, username= ?, email=?, clave=?, id_rol=?, estado=? WHERE id_usuario=?";
+            String sql = "UPDATE usuario SET nombres=?, apellidos=?, dni=?, celular=?, username= ?, email=?, clave=?, id_rol=? WHERE id_usuario=?";
             psm = cn.prepareStatement(sql);
-            psm.setString(1, user.getNombres());
-            psm.setString(2, user.getApellidos());
-            psm.setString(3, user.getUsername());
-            psm.setString(4, user.getDni());
-            psm.setString(5, user.getCelular());
-            psm.setString(6, user.getEmail());
-            psm.setString(7, user.getClave());
-            psm.setInt(8, user.getRol().getIdRol());
-            psm.setInt(9, user.getEstado());
+            psm.setString(1, usuario.getNombres());
+            psm.setString(2, usuario.getApellidos());
+            psm.setString(3, usuario.getDni());
+            psm.setString(4, usuario.getCelular());
+            psm.setString(5, usuario.getUsername());
+            psm.setString(6, usuario.getEmail());
+            psm.setString(7, usuario.getClave());
+            psm.setInt(8, usuario.getRol().getIdRol());
+            psm.setInt(9, usuario.getIdUsuario());
             psm.executeUpdate();
             System.out.println("Se actualizo Correctamente");
             return true;
@@ -81,21 +80,44 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
 
     @Override
-    public boolean eliminarUsuario(Integer idUsuario) {
+    public boolean actualizarEstadoUsuario(int idUsuario, int estado) {
+        try {
+            cn = MySQLConexion.getConnection();
+            String sql = "UPDATE usuario SET estado = ? WHERE id_usuario = ?";
+            psm = cn.prepareStatement(sql);
+            if (estado != 0 && estado != 1){
+               return false;
+            }
+            psm.setInt(1, estado);
+            psm.setInt(2, idUsuario);
+            psm.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            System.out.println("Error al actualizar estado" + e.getMessage());
+        } finally {
+            try {
+                if (cn!= null) MySQLConexion.closeConexion(cn);
+                if (psm!= null) psm.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         return false;
     }
 
     @Override
     public List<Usuario> listarUsuario() {
+        ArrayList<Usuario> lista = new ArrayList<>();
         try {
             cn = MySQLConexion.getConnection();
             String sql = "SELECT u.id_usuario, u.nombres, u.apellidos, u.dni, u.celular, u.username, u.email, u.clave, r.nombre_rol , u.estado, u.fecha_creacion " +
-                    "FROM usuario AS u" +
-                    "INNER JOIN rol AS r" +
+                    "FROM usuario AS u " +
+                    "INNER JOIN rol AS r " +
                     "ON u.id_rol = r.id_rol";
             psm = cn.prepareStatement(sql);
             rs = psm.executeQuery();
             while (rs.next()) {
+                Usuario user = new Usuario();
                 user.setIdUsuario(rs.getInt(1));
                 user.setNombres(rs.getString(2));
                 user.setApellidos(rs.getString(3));
@@ -105,7 +127,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
                 user.setEmail(rs.getString(7));
                 user.setClave(rs.getString(8));
                 Rol rol = new Rol();
-                user.getRol().setNombreRol(rs.getString(9));
+                rol.setNombreRol(rs.getString(9));
                 user.setRol(rol);
                 user.setEstado(rs.getInt(10));
                 user.setFecha_creacion(rs.getTimestamp(11).toLocalDateTime());
@@ -117,6 +139,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
             try {
                 if (cn != null) MySQLConexion.closeConexion(cn);
                 if (psm != null) psm.close();
+                if (rs != null) rs.close();
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -125,16 +148,18 @@ public class UsuarioDAOImpl implements UsuarioDAO {
     }
 
     @Override
-    public List<Usuario> buscarPorDni(String dniUsuario) {
+    public Usuario buscarPorDni(String dniUsuario) {
         try {
             cn = MySQLConexion.getConnection();
             String sql = "SELECT u.id_usuario, u.nombres, u.apellidos, u.dni, u.celular, u.username, u.email, u.clave, r.nombre_rol , u.estado, u.fecha_creacion " +
-                    "FROM usuario AS u" +
-                    "INNER JOIN rol AS r" +
+                    "FROM usuario AS u " +
+                    "INNER JOIN rol AS r " +
                     "ON u.id_rol = r.id_rol WHERE u.dni=?";
             psm = cn.prepareStatement(sql);
+            psm.setString(1, dniUsuario);
             rs = psm.executeQuery();
-            while (rs.next()) {
+            if (rs.next()){
+                Usuario user = new Usuario();
                 user.setIdUsuario(rs.getInt(1));
                 user.setNombres(rs.getString(2));
                 user.setApellidos(rs.getString(3));
@@ -144,11 +169,11 @@ public class UsuarioDAOImpl implements UsuarioDAO {
                 user.setEmail(rs.getString(7));
                 user.setClave(rs.getString(8));
                 Rol rol = new Rol();
-                user.getRol().setNombreRol(rs.getString(9));
+                rol.setNombreRol(rs.getString(9));
                 user.setRol(rol);
                 user.setEstado(rs.getInt(10));
                 user.setFecha_creacion(rs.getTimestamp(11).toLocalDateTime());
-                lista.add(user);
+                return user;
             }
         } catch (Exception e) {
             System.out.println("Error al listar" + e.getMessage());
@@ -156,24 +181,27 @@ public class UsuarioDAOImpl implements UsuarioDAO {
             try {
                 if (cn != null) MySQLConexion.closeConexion(cn);
                 if (psm != null) psm.close();
+                if (rs != null) rs.close();
             } catch (Exception e){
                 e.printStackTrace();
             }
         }
-        return  lista;
+        return null;
     }
 
     @Override
-    public List<Usuario> buscarPorId(int idUsuario) {
+    public Usuario buscarPorId(int idUsuario) {
         try {
             cn = MySQLConexion.getConnection();
-            String sql = "SELECT u.id_usuario, u.nombre, u.apellido, u.dni, u.celular, u.username, u.email, u.clave, r.nombre_rol , u.estado, u.fecha_creacion " +
-                    "FROM usuario AS u" +
-                    "INNER JOIN rol AS r" +
+            String sql = "SELECT u.id_usuario, u.nombres, u.apellidos, u.dni, u.celular, u.username, u.email, u.clave, r.nombre_rol , u.estado, u.fecha_creacion " +
+                    "FROM usuario AS u " +
+                    "INNER JOIN rol AS r " +
                     "ON u.id_rol = r.id_rol WHERE u.id_usuario=?";
             psm = cn.prepareStatement(sql);
+            psm.setInt(1, idUsuario);
             rs = psm.executeQuery();
-            while (rs.next()) {
+            if (rs.next()){
+                Usuario user = new Usuario();
                 user.setIdUsuario(rs.getInt(1));
                 user.setNombres(rs.getString(2));
                 user.setApellidos(rs.getString(3));
@@ -183,11 +211,11 @@ public class UsuarioDAOImpl implements UsuarioDAO {
                 user.setEmail(rs.getString(7));
                 user.setClave(rs.getString(8));
                 Rol rol = new Rol();
-                user.getRol().setNombreRol(rs.getString(9));
+                rol.setNombreRol(rs.getString(9));
                 user.setRol(rol);
                 user.setEstado(rs.getInt(10));
                 user.setFecha_creacion(rs.getTimestamp(11).toLocalDateTime());
-                lista.add(user);
+                return user;
             }
         } catch (Exception e) {
             System.out.println("Error al listar" + e.getMessage());
@@ -195,10 +223,12 @@ public class UsuarioDAOImpl implements UsuarioDAO {
             try {
                 if (cn != null) MySQLConexion.closeConexion(cn);
                 if (psm != null) psm.close();
+                if (rs != null) rs.close();
             } catch (Exception e){
                 e.printStackTrace();
             }
         }
-        return  lista;
+        return null;
     }
+
 }
