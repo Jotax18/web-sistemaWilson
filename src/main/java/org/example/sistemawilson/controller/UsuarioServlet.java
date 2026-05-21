@@ -41,7 +41,11 @@ public class UsuarioServlet extends HttpServlet {
             case "listarUsuarioDni":
                 String dni = req.getParameter("txtDni");
                 Usuario userDni = daoUsuario.buscarPorDni(dni);
-                req.setAttribute("usuarioDni", userDni);
+                List<Usuario> listaFiltrada = new ArrayList<>();
+                if (userDni != null){
+                    listaFiltrada.add(userDni);
+                }
+                req.setAttribute("listaUsuario", listaFiltrada);
                 req.getRequestDispatcher("lista_usuario.jsp").forward(req,resp);
                 break;
             default:
