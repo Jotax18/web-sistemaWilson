@@ -33,6 +33,9 @@ public class UsuarioServlet extends HttpServlet {
         }
 
         switch (action) {
+            case "cargarFormularioRegistrar":
+                req.getRequestDispatcher("formulario_usuario.jsp").forward(req, resp);
+                break;
             case "listar":
                 List<Usuario> lista = daoUsuario.listarUsuario();
                 req.setAttribute("listaUsuario", lista);
@@ -92,10 +95,17 @@ public class UsuarioServlet extends HttpServlet {
 
                 if (registrar){
                     resp.sendRedirect("UsuarioServlet?action=listar");
+                    System.out.println("Se registro el usuario" + u);
                 } else {
                     req.setAttribute("error", "Hubo un problema al registrar");
                     req.getRequestDispatcher("formulario_usuario.jsp").forward(req, resp);
                 }
+                break;
+            case "cargarFormularioEditar":
+                int id = Integer.parseInt(req.getParameter("idUsuario"));
+                Usuario usuarioEditar = daoUsuario.buscarPorId(id);
+                req.setAttribute("usuario", usuarioEditar);
+                req.getRequestDispatcher("formulario_usuario.jsp").forward(req, resp);
                 break;
             case "actualizarUsuario":
                 u = construirUsuarioDesdeRequest(req);
@@ -106,6 +116,7 @@ public class UsuarioServlet extends HttpServlet {
                     resp.sendRedirect("UsuarioServlet?action=listar");
                 } else{
                     req.setAttribute("error", "Hubo un problema al actualizar");
+                    req.setAttribute("usuario", u);
                     req.getRequestDispatcher("formulario_usuario.jsp").forward(req, resp);
                 }
                 break;
