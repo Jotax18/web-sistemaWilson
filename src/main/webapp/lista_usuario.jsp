@@ -168,7 +168,7 @@
 
                         <td class="text-center">
                             <div class="d-flex justify-content-center gap-1">
-                                <a href="UsuarioServlet?action=actualizarUsuario&id=${u.idUsuario}" class="btn btn-outline-primary btn-sm" title="Editar">
+                                <a href="UsuarioServlet?action=cargarFormularioActualizar&id=${u.idUsuario}" class="btn btn-outline-primary btn-sm" title="Editar">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
 

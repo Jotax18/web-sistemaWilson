@@ -1,9 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Registrar Usuario | SistemaWilson</title>
+    <title>${usuario != null ? 'Actualizar' : 'Registrar'} Usuario | SistemaWilson</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <style>
@@ -86,14 +87,17 @@
 <div class="container-fluid py-4 px-4 px-xl-5">
 
     <div class="titulo-seccion d-flex align-items-center mb-4">
-        <h4 class="mb-0 fw-bold"><i class="bi bi-person-plus text-success me-2"></i> Registrar Nuevo Usuario</h4>
+        <h4 class="mb-0 fw-bold">
+            <i class="bi bi-person-plus text-success me-2"></i>
+            ${usuario != null ? 'Actualizar Usuario' : 'Registrar Nuevo Usuario'}
+        </h4>
     </div>
 
     <div class="card-formulario">
 
         <form action="UsuarioServlet" method="post" id="formUsuario" onsubmit="return validarFormulario(event)">
 
-            <input type="hidden" name="action" value="registrarUsuario">
+            <input type="hidden" name="action" value="${usuario != null ? 'actualizarUsuario' : 'registrarUsuario'}">
             <input type="hidden" name="txtIdUsuario" value="">
 
             <div class="seccion-titulo">
@@ -101,22 +105,24 @@
             </div>
 
             <div class="row g-4 mb-4">
+                <input type="hidden" name="txtIdUsuario" value="${usuario.idUsuario}">
+
                 <div class="col-md-6">
                     <label class="form-label">Nombres Completos <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" name="txtNombres" value="" required placeholder="Ej. Juan Carlos">
+                    <input type="text" class="form-control" name="txtNombres" value="${usuario.nombres}" required>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Apellidos <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" name="txtApellidos" value="" required placeholder="Ej. Pérez Gómez">
+                    <input type="text" class="form-control" name="txtApellidos" value="${usuario.apellidos}" required>
                 </div>
 
                 <div class="col-md-6">
                     <label class="form-label">DNI <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" name="txtDni" value="" maxlength="8" required placeholder="8 dígitos">
+                    <input type="text" class="form-control" name="txtDni" value="${usuario.dni}" maxlength="8" required>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Celular</label>
-                    <input type="text" class="form-control" name="txtCelular" value=""  maxlength="9" minlength="9" required placeholder="Ingrese celular">
+                    <input type="text" class="form-control" name="txtCelular" value="${usuario.celular}"  maxlength="9" minlength="9" required>
                 </div>
             </div>
 
@@ -127,30 +133,33 @@
             <div class="row g-4 mb-4">
                 <div class="col-md-6">
                     <label class="form-label">Username <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" name="txtUsuario" value="" required placeholder="Ej. jperez">
+                    <input type="text" class="form-control" name="txtUsuario" value="${usuario.username}" required>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">Correo Electrónico <span class="text-danger">*</span></label>
-                    <input type="email" class="form-control" name="txtEmail" value="" required placeholder="usuario@ejemplo.com">
+                    <input type="email" class="form-control" name="txtEmail" value="${usuario.email}" required>
                 </div>
 
                 <div class="col-md-12">
                     <label class="form-label">Rol del Sistema <span class="text-danger">*</span></label>
                     <select class="form-select" name="cboRol" required>
                         <option value="">Seleccione un rol...</option>
-                        <option value="1">Administrador</option>
-                        <option value="2">Vendedor</option>
+                        <option value="1" ${usuario.rol.idRol == 1 ? 'selected' : ''}>Administrador</option>
+                        <option value="2" ${usuario.rol.idRol == 2 ? 'selected' : ''}>Vendedor</option>
                     </select>
                 </div>
 
                 <div class="col-md-6">
-                    <label class="form-label">Contraseña <span class="text-danger">*</span></label>
+                    <label class="form-label">${usuario != null ? 'Nueva ' : ''}Contraseña <span class="text-danger">*</span></label>
                     <div class="input-group">
                         <input type="password" class="form-control" name="txtClave" id="txtClave" required placeholder="Mínimo 8 caracteres">
                         <button class="btn btn-toggle-password" type="button" onclick="togglePassword('txtClave', 'iconClave')">
                             <i class="bi bi-eye" id="iconClave"></i>
                         </button>
                     </div>
+                    <c:if test="${usuario != null}">
+                        <small class="text-muted">Si no desea cambiarla del usuario, repita la misma.</small>
+                    </c:if>
                 </div>
 
                 <div class="col-md-6">
@@ -165,16 +174,35 @@
                         <i class="bi bi-exclamation-triangle"></i> Las contraseñas no coinciden.
                     </div>
                 </div>
-            </div>
 
-            <div class="d-flex justify-content-end gap-3 mt-5 pt-3 border-top">
-                <a href="UsuarioServlet?action=listar" class="btn btn-outline-secondary">
-                    <i class="bi bi-arrow-left me-1"></i> Volver al Listado
-                </a>
-                <button type="submit" class="btn btn-success">
-                    <i class="bi bi-floppy me-1"></i> Guardar Usuario
-                </button>
-            </div>
+                <c:if test="${usuario != null}">
+                <div class="seccion-titulo mt-5 border-top pt-4" style="color: #6f42c1; border-bottom-color: #e0d4f7;">
+                    <i class="bi bi-shield-check me-2"></i>Verificación de Seguridad
+                </div>
+
+                <div class="row g-4 mb-2">
+                    <div class="col-md-12 bg-light p-3 rounded border" style="border-color: #e0d4f7 !important;">
+                        <label class="form-label text-dark">Contraseña de Administrador <span class="text-danger">*</span></label>
+                        <p class="small text-muted mb-2">Para guardar cualquier modificación, confirme su identidad ingresando su contraseña actual de administrador.</p>
+                        <div class="input-group" style="max-width: 400px;">
+                            <span class="input-group-text bg-white"><i class="bi bi-key-fill" style="color: #6f42c1;"></i></span>
+                            <input type="password" class="form-control" name="txtClaveAdmin" id="txtClaveAdmin" required placeholder="Su contraseña actual">
+                            <button class="btn btn-toggle-password bg-white" type="button" onclick="togglePassword('txtClaveAdmin', 'iconAdmin')">
+                                <i class="bi bi-eye text-secondary" id="iconAdmin"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                </c:if>
+
+                <div class="d-flex justify-content-end gap-3 mt-5 pt-3 border-top">
+                    <a href="UsuarioServlet?action=listar" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left me-1"></i> Volver al Listado
+                    </a>
+                    <button type="submit" class="btn ${usuario != null ? 'btn-primary' : 'btn-success'}">
+                        <i class="bi bi-floppy me-1"></i> ${usuario != null ? 'Guardar Cambios' : 'Registrar Usuario'}
+                    </button>
+                </div>
 
         </form>
     </div>

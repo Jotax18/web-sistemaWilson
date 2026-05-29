@@ -7,6 +7,7 @@ public interface UsuarioDAO {
     public boolean registrarUsuario(Usuario usuario);
     public boolean actualizarPerfilUsuario(Usuario usuario);
     public boolean actualizarEstadoUsuario(int idUsuario, int estado);
+    public boolean coompararPassword(String clave);
     public List<Usuario> listarUsuario();
     public Usuario buscarPorDni(String dniUsuario);
     public Usuario buscarPorId(int idUsuario);

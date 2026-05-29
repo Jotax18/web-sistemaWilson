@@ -106,6 +106,12 @@ public class UsuarioDAOImpl implements UsuarioDAO {
     }
 
     @Override
+    public boolean coompararPassword(String clave) {
+
+        return false;
+    }
+
+    @Override
     public List<Usuario> listarUsuario() {
         ArrayList<Usuario> lista = new ArrayList<>();
         try {

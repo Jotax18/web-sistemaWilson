@@ -16,7 +16,6 @@ import java.util.List;
 
 @WebServlet("/UsuarioServlet")
 public class UsuarioServlet extends HttpServlet {
-
     public UsuarioServlet(){
 
     }
@@ -34,6 +33,12 @@ public class UsuarioServlet extends HttpServlet {
 
         switch (action) {
             case "cargarFormularioRegistrar":
+                req.getRequestDispatcher("formulario_usuario.jsp").forward(req, resp);
+                break;
+            case "cargarFormularioActualizar":
+                int id = Integer.parseInt(req.getParameter("id"));
+                Usuario usuarioEncontrado = daoUsuario.buscarPorId(id);
+                req.setAttribute("usuario",usuarioEncontrado);
                 req.getRequestDispatcher("formulario_usuario.jsp").forward(req, resp);
                 break;
             case "listar":
@@ -93,23 +98,18 @@ public class UsuarioServlet extends HttpServlet {
                 u = construirUsuarioDesdeRequest(req);
                 boolean registrar = daoUsuario.registrarUsuario(u);
 
-                if (registrar){
-                    resp.sendRedirect("UsuarioServlet?action=listar");
-                    System.out.println("Se registro el usuario" + u);
-                } else {
+                if (!registrar) {
                     req.setAttribute("error", "Hubo un problema al registrar");
                     req.getRequestDispatcher("formulario_usuario.jsp").forward(req, resp);
+                } else {
+                    resp.sendRedirect("UsuarioServlet?action=listar");
+                    System.out.println("Se registro el usuario" + u);
                 }
-                break;
-            case "cargarFormularioEditar":
-                int id = Integer.parseInt(req.getParameter("idUsuario"));
-                Usuario usuarioEditar = daoUsuario.buscarPorId(id);
-                req.setAttribute("usuario", usuarioEditar);
-                req.getRequestDispatcher("formulario_usuario.jsp").forward(req, resp);
                 break;
             case "actualizarUsuario":
                 u = construirUsuarioDesdeRequest(req);
                 u.setIdUsuario(Integer.parseInt(req.getParameter("txtIdUsuario")));
+                String claveAdmin = req.getParameter("txtClaveAdmin");
                 boolean actualizar = daoUsuario.actualizarPerfilUsuario(u);
 
                 if (actualizar){
