@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Created-By: IntelliJ IDEA
+Built-By: jota
+Build-Jdk: Homebrew OpenJDK 26.0.1 - aarch64
+

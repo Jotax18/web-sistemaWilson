@@ -56,6 +56,18 @@ public class UsuarioServlet extends HttpServlet {
                 req.setAttribute("listaUsuario", listaFiltrada);
                 req.getRequestDispatcher("lista_usuario.jsp").forward(req,resp);
                 break;
+            case "cambiarEstadoUsuario":
+                int idUsuario = Integer.parseInt(req.getParameter("id"));
+                int estado = Integer.parseInt(req.getParameter("estado"));
+                boolean cambiarEstado = daoUsuario.actualizarEstadoUsuario(idUsuario, estado);
+
+                if (cambiarEstado){
+                    resp.sendRedirect("UsuarioServlet?action=listar");
+                } else{
+                    req.setAttribute("error", "Hubo un problema al actualizar");
+                    req.getRequestDispatcher("formulario_usuario.jsp").forward(req, resp);
+                }
+                break;
             default:
                 resp.sendRedirect("error.jsp");
         }
@@ -109,7 +121,6 @@ public class UsuarioServlet extends HttpServlet {
             case "actualizarUsuario":
                 u = construirUsuarioDesdeRequest(req);
                 u.setIdUsuario(Integer.parseInt(req.getParameter("txtIdUsuario")));
-                String claveAdmin = req.getParameter("txtClaveAdmin");
                 boolean actualizar = daoUsuario.actualizarPerfilUsuario(u);
 
                 if (actualizar){
@@ -117,18 +128,6 @@ public class UsuarioServlet extends HttpServlet {
                 } else{
                     req.setAttribute("error", "Hubo un problema al actualizar");
                     req.setAttribute("usuario", u);
-                    req.getRequestDispatcher("formulario_usuario.jsp").forward(req, resp);
-                }
-                break;
-            case "cambiarEstadoUsuario":
-                int idUsuario = Integer.parseInt(req.getParameter("txtIdUsuario"));
-                int estado = Integer.parseInt(req.getParameter("cboEstado"));
-                boolean cambiarEstado = daoUsuario.actualizarEstadoUsuario(idUsuario, estado);
-
-                if (cambiarEstado){
-                    resp.sendRedirect("UsuarioServlet?action=listar");
-                } else{
-                    req.setAttribute("error", "Hubo un problema al actualizar");
                     req.getRequestDispatcher("formulario_usuario.jsp").forward(req, resp);
                 }
                 break;
