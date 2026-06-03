@@ -4,6 +4,7 @@ import org.example.sistemawilson.model.Usuario;
 import java.util.List;
 
 public interface UsuarioDAO {
+    public Usuario validarLogin(Usuario u);
     public boolean registrarUsuario(Usuario usuario);
     public boolean actualizarPerfilUsuario(Usuario usuario);
     public boolean actualizarEstadoUsuario(int idUsuario, int estado);

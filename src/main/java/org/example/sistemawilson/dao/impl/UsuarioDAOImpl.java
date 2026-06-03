@@ -3,6 +3,7 @@ package org.example.sistemawilson.dao.impl;
 import org.example.sistemawilson.dao.UsuarioDAO;
 import org.example.sistemawilson.model.Rol;
 import org.example.sistemawilson.model.Usuario;
+import org.example.sistemawilson.model.Utils;
 import org.example.sistemawilson.util.MySQLConexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,6 +17,41 @@ public class UsuarioDAOImpl implements UsuarioDAO {
    PreparedStatement psm = null;
    ResultSet rs = null;
 
+    @Override
+    public Usuario validarLogin(Usuario u) {
+        Usuario usuario = null;
+        try {
+            cn = MySQLConexion.getConnection();
+            String sql = "SELECT u.id_usuario, r.nombre_rol, u.username " +
+                    "FROM usuario u " +
+                    "INNER JOIN rol AS r ON u.id_rol = r.id_rol " +
+                    "WHERE u.estado = 1 AND u.username = ? AND u.clave = ?";
+            psm = cn.prepareStatement(sql);
+            psm.setString(1, u.getUsername());
+            psm.setString(2, u.getClave());
+            rs = psm.executeQuery();
+            if (rs.next()) {
+                Usuario user = new Usuario();
+                usuario = user;
+                user.setIdUsuario(rs.getInt(1));
+                Rol rol = new Rol();
+                rol.setNombreRol(rs.getString(2));
+                user.setRol(rol);
+                user.setUsername(rs.getString(3));
+                user.setEstado(Utils.ESTADO_ACTIVO);
+            }
+        } catch (Exception e) {
+            System.out.println("Error al validar el Login: " + e.getMessage());
+        } finally {
+            try {
+                if (cn != null) MySQLConexion.closeConexion(cn);
+                if (psm != null) psm.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return usuario;
+    }
 
     @Override
     public boolean registrarUsuario(Usuario usuario) {
@@ -25,9 +61,9 @@ public class UsuarioDAOImpl implements UsuarioDAO {
             psm = cn.prepareStatement(sql);
             psm.setString(1, usuario.getNombres());
             psm.setString(2, usuario.getApellidos());
-            psm.setString(3, usuario.getUsername());
-            psm.setString(4, usuario.getDni());
-            psm.setString(5, usuario.getCelular());
+            psm.setString(3, usuario.getDni());
+            psm.setString(4, usuario.getCelular());
+            psm.setString(5, usuario.getUsername());
             psm.setString(6, usuario.getEmail());
             psm.setString(7, usuario.getClave());
             psm.setInt(8, usuario.getRol().getIdRol());
@@ -82,12 +118,12 @@ public class UsuarioDAOImpl implements UsuarioDAO {
     @Override
     public boolean actualizarEstadoUsuario(int idUsuario, int estado) {
         try {
+            if (estado != 0 && estado != 1){
+                return false;
+            }
             cn = MySQLConexion.getConnection();
             String sql = "UPDATE usuario SET estado = ? WHERE id_usuario = ?";
             psm = cn.prepareStatement(sql);
-            if (estado != 0 && estado != 1){
-               return false;
-            }
             psm.setInt(1, estado);
             psm.setInt(2, idUsuario);
             psm.executeUpdate();

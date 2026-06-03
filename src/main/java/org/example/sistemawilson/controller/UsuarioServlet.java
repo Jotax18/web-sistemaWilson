@@ -9,6 +9,7 @@ import org.example.sistemawilson.dao.UsuarioDAO;
 import org.example.sistemawilson.dao.impl.UsuarioDAOImpl;
 import org.example.sistemawilson.model.Rol;
 import org.example.sistemawilson.model.Usuario;
+import org.example.sistemawilson.model.Utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -56,18 +57,6 @@ public class UsuarioServlet extends HttpServlet {
                 req.setAttribute("listaUsuario", listaFiltrada);
                 req.getRequestDispatcher("lista_usuario.jsp").forward(req,resp);
                 break;
-            case "cambiarEstadoUsuario":
-                int idUsuario = Integer.parseInt(req.getParameter("id"));
-                int estado = Integer.parseInt(req.getParameter("estado"));
-                boolean cambiarEstado = daoUsuario.actualizarEstadoUsuario(idUsuario, estado);
-
-                if (cambiarEstado){
-                    resp.sendRedirect("UsuarioServlet?action=listar");
-                } else{
-                    req.setAttribute("error", "Hubo un problema al actualizar");
-                    req.getRequestDispatcher("formulario_usuario.jsp").forward(req, resp);
-                }
-                break;
             default:
                 resp.sendRedirect("error.jsp");
         }
@@ -95,7 +84,7 @@ public class UsuarioServlet extends HttpServlet {
         u.setEmail(email);
         u.setClave(pass);
         u.setRol(r);
-        u.setEstado(1);
+        u.setEstado(Utils.ESTADO_ACTIVO);
 
         return u;
     }
@@ -128,6 +117,18 @@ public class UsuarioServlet extends HttpServlet {
                 } else{
                     req.setAttribute("error", "Hubo un problema al actualizar");
                     req.setAttribute("usuario", u);
+                    req.getRequestDispatcher("formulario_usuario.jsp").forward(req, resp);
+                }
+                break;
+            case "cambiarEstadoUsuario":
+                int idUsuario = Integer.parseInt(req.getParameter("id"));
+                int estado = Integer.parseInt(req.getParameter("estado"));
+                boolean cambiarEstado = daoUsuario.actualizarEstadoUsuario(idUsuario, estado);
+
+                if (cambiarEstado){
+                    resp.sendRedirect("UsuarioServlet?action=listar");
+                } else{
+                    req.setAttribute("error", "Hubo un problema al actualizar");
                     req.getRequestDispatcher("formulario_usuario.jsp").forward(req, resp);
                 }
                 break;

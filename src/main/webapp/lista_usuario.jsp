@@ -171,19 +171,19 @@
                                 <a href="UsuarioServlet?action=cargarFormularioActualizar&id=${u.idUsuario}" class="btn btn-outline-primary btn-sm" title="Editar">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
-                                <c:if test="${u.estado == 1}">
-                                    <button type="button" class="btn btn-outline-danger btn-sm"
-                                            onclick="abrirModalEstado(${u.idUsuario}, '${u.nombres}', 1)" title="Desactivar">
-                                        <i class="bi bi-person-x"></i>
-                                    </button>
-                                </c:if>
+                                    <c:if test="${u.estado == 1}">
+                                        <button type="button" class="btn btn-outline-danger btn-sm"
+                                                onclick="abrirModalEstado(${u.idUsuario}, '${u.nombres}', 1)" title="Desactivar">
+                                            <i class="bi bi-person-x"></i>
+                                        </button>
+                                    </c:if>
 
-                                <c:if test="${u.estado == 0}">
-                                    <button type="button" class="btn btn-outline-success btn-sm"
-                                            onclick="abrirModalEstado(${u.idUsuario}, '${u.nombres}', 0)" title="Activar">
-                                        <i class="bi bi-person-check"></i>
-                                    </button>
-                                </c:if>
+                                    <c:if test="${u.estado == 0}">
+                                        <button type="button" class="btn btn-outline-success btn-sm"
+                                                onclick="abrirModalEstado(${u.idUsuario}, '${u.nombres}', 0)" title="Activar">
+                                            <i class="bi bi-person-check"></i>
+                                        </button>
+                                    </c:if>
                             </div>
                         </td>
                     </tr>
@@ -202,25 +202,29 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <div class="modal fade" id="modalCambiarEstado" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
+            <form action="UsuarioServlet" method="post">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold text-dark">Confirmar Acción</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
 
-            <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title fw-bold text-dark">Confirmar Acción</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
+                <div class="modal-body text-center pt-4 pb-4">
+                    <p id="textoModalEstado" class="fs-5 mb-0"></p>
 
-            <div class="modal-body text-center pt-4 pb-4">
-                <p id="textoModalEstado" class="fs-5 mb-0"></p>
-            </div>
+                    <input type="hidden" name="action" value="cambiarEstadoUsuario">
+                    <input type="hidden" name="id" id="modalInputId">
+                    <input type="hidden" name="estado" id="modalInputEstado">
+                </div>
 
-            <div class="modal-footer border-0 d-flex justify-content-center gap-2 pb-4">
-                <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Cancelar</button>
-                <a href="#" id="btnConfirmarEstado" class="btn px-4">Sí, confirmar</a>
-            </div>
-
+                <div class="modal-footer border-0 d-flex justify-content-center gap-2 pb-4">
+                    <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" id="btnConfirmarEstado" class="btn px-4">Sí, confirmar</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -229,10 +233,12 @@
         const textoMensaje = document.getElementById('textoModalEstado');
         const btnConfirmar = document.getElementById('btnConfirmarEstado');
 
-        // 1. Determinamos el nuevo estado (si es 1 pasa a 0, si es 0 pasa a 1)
+        // Capturamos los inputs ocultos
+        const inputId = document.getElementById('modalInputId');
+        const inputEstado = document.getElementById('modalInputEstado');
+
         let nuevoEstadoEnviar = (estado == 1) ? 0 : 1;
 
-        // 2. Personalizamos el texto y color del botón del modal (usando concatenación estándar)
         if (estado == 1) {
             textoMensaje.innerHTML = '¿Estás seguro de que deseas <strong>desactivar</strong> a ' + nombres + '?';
             btnConfirmar.className = "btn btn-danger px-4";
@@ -241,10 +247,10 @@
             btnConfirmar.className = "btn btn-success px-4";
         }
 
-        // 3. ENVIAMOS AMBOS PARAMETROS AL SERVLET (usando concatenación estándar)
-        btnConfirmar.href = 'UsuarioServlet?action=cambiarEstadoUsuario&id=' + idUsuario + '&estado=' + nuevoEstadoEnviar;
+        // LLENAMOS LOS DATOS OCULTOS PARA EL POST
+        inputId.value = idUsuario;
+        inputEstado.value = nuevoEstadoEnviar;
 
-        // 4. Mostramos el modal
         const modalElement = document.getElementById('modalCambiarEstado');
         const modal = new bootstrap.Modal(modalElement);
         modal.show();
