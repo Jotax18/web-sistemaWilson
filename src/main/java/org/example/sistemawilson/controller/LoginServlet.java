@@ -23,7 +23,6 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession sesion;
         String user = req.getParameter("txtUsername");
         String pass = req.getParameter("txtPassword");
 
@@ -34,8 +33,26 @@ public class LoginServlet extends HttpServlet {
         UsuarioDAO usuarioDAO = new UsuarioDAOImpl();
         Usuario userValida = usuarioDAO.validarLogin(usuario);
 
-        if (userValida != null && userValida.getRol().getIdRol() == Utils.ROL_ADMIN){
-            //sesion.setAttribute("usuario", userValida);
+        if (userValida != null) {
+
+            HttpSession sesion = req.getSession();
+            sesion.setAttribute("usuario", userValida);
+            sesion.setAttribute("msje", "Bienvenido al sistema");
+
+            if (userValida.getRol().getNombreRol().equals(Utils.ROL_ADMIN)) {
+                resp.sendRedirect("UsuarioServlet?action=listar");
+
+            } else if (userValida.getRol().getNombreRol().equals(Utils.ROL_VENDEDOR)) {
+                resp.sendRedirect("PrincipalServlet?action=cotizaProducto");
+
+            } else {
+                req.setAttribute("error", "Rol de usuario no autorizado");
+                req.getRequestDispatcher("login_usuario.jsp").forward(req, resp);
+            }
+
+        } else {
+            req.setAttribute("error", "Credenciales Inválidas");
+            req.getRequestDispatcher("login_usuario.jsp").forward(req, resp);
         }
     }
 }

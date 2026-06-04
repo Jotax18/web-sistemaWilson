@@ -9,7 +9,7 @@ public final class Utils {
     public static final int ESTADO_ACTIVO = 1;
 
     //ROL USUARIO
-    public static final int ROL_ADMIN = 1;
-    public static final int ROL_VENDEDOR = 2;
+    public static final String ROL_ADMIN = "admin";
+    public static final String ROL_VENDEDOR = "vendedor";
 
 }
