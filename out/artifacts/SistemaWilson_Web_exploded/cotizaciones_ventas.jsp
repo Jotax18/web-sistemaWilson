@@ -13,8 +13,8 @@
 <div class="container mt-5">
     <div class="card shadow-sm border-0">
         <div class="card-body p-4">
-            <h3 class="card-title text-primary mb-3">Cotización de Ventas</h3>
-            <p class="text-muted">Bienvenido al sistema Wilson. Ingresa los datos para buscar o iniciar la cotización.</p>
+            <h3 class="card-title text-primary mb-3">Cotización de Ventas, Bienvenido de nuevo, ${usuarioSesion.nombres}</h3>
+            <p class="text-muted"></p>
             <hr>
 
             <form action="PrincipalServlet" method="get" class="row g-3 mt-2">

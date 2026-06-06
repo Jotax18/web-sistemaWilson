@@ -36,7 +36,7 @@ public class LoginServlet extends HttpServlet {
         if (userValida != null) {
 
             HttpSession sesion = req.getSession();
-            sesion.setAttribute("usuario", userValida);
+            sesion.setAttribute("usuarioSesion", userValida);
             sesion.setAttribute("msje", "Bienvenido al sistema");
 
             if (userValida.getRol().getNombreRol().equals(Utils.ROL_ADMIN)) {
