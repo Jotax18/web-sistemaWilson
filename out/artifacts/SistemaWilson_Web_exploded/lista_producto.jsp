@@ -12,6 +12,8 @@
             background-color: #f4f6f9;
             color: #333333;
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+
         }
 
         .titulo-seccion {
@@ -76,125 +78,130 @@
     </style>
 </head>
 <body>
-<div class="container-fluid py-4 px-4 px-xl-5">
+<div class="d-flex" style="min-height: 100vh; background-color: #f4f6f9;">
 
-    <div class="titulo-seccion d-flex align-items-center justify-content-between">
-        <h4 class="mb-0 fw-bold">
-            <i class="bi bi-box-seam-fill me-2 text-primary"></i>
-            Control de Inventario (Productos)
-        </h4>
-        <a href="ProductoServlet?action=registrarProducto" class="btn btn-success shadow-sm">
-            <i class="bi bi-plus-circle me-1"></i> Nuevo Producto
-        </a>
-    </div>
+    <jsp:include page="sidebar.jsp" />
 
-    <div class="card-panel">
-        <div class="row g-3 align-items-end">
-            <div class="col-md-4">
-                <a href="ProductoServlet?action=listar" class="btn btn-primary">
-                    <i class="bi bi-arrow-clockwise me-1"></i> Actualizar Tabla
+    <div class="flex-grow-1 overflow-auto">
+        <div class="container-fluid py-4 px-4 px-xl-5">
+
+            <div class="titulo-seccion d-flex align-items-center justify-content-between">
+                <h4 class="mb-0 fw-bold">
+                    <i class="bi bi-box-seam-fill me-2 text-primary"></i>
+                    Control de Inventario (Productos)
+                </h4>
+                <a href="ProductoServlet?action=cargarFormularioRegistrar" class="btn btn-success shadow-sm">
+                    <i class="bi bi-plus-circle me-1"></i> Nuevo Producto
                 </a>
             </div>
-            <div class="col-md-8">
-                <form action="ProductoServlet" method="GET" class="m-0 d-flex justify-content-md-end gap-2">
-                    <input type="hidden" name="action" value="buscarSku">
-                    <div style="max-width: 300px;" class="input-group">
-                        <input type="text" class="form-control" name="txtSku" placeholder="Buscar por SKU..." maxlength="20">
-                        <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
+
+            <div class="card-panel">
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-4">
+                        <a href="ProductoServlet?action=listar" class="btn btn-primary">
+                            <i class="bi bi-arrow-clockwise me-1"></i> Actualizar Tabla
+                        </a>
                     </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="card-panel p-0 overflow-hidden">
-        <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-                <thead class="table-light-header">
-                <tr>
-                    <th style="width: 50px;">ID</th>
-                    <th>SKU</th>
-                    <th>Producto</th>
-                    <th>Marca</th>
-                    <th>Modelo</th>
-                    <th>Categoría</th>
-                    <th>P. Compra</th>
-                    <th>P. Venta</th>
-                    <th class="text-center">Stock Act.</th>
-                    <th class="text-center">Stock Mín.</th>
-                    <th>Fecha Creación</th>
-                    <th class="text-center" style="width: 100px;">Acciones</th>
-                </tr>
-                </thead>
-                <tbody>
-
-                <c:forEach items="${listaProducto}" var="p">
-                    <tr>
-                        <td class="fw-bold text-dark">${p.idProducto}</td>
-                        <td><span class="badge bg-secondary font-monospace">${p.codigoSku}</span></td>
-                        <td class="fw-bold text-dark">${p.nombre}</td>
-                        <td>${p.marca.nombre}</td>
-                        <td>${p.modelo}</td>
-                        <td>${p.categoria.nombre}</td>
-
-                        <td class="fw-bold text-secondary">S/. ${p.precioCompra}</td>
-                        <td class="fw-bold text-primary">S/. ${p.precioVenta}</td>
-
-                        <td class="text-center">
-                            <c:choose>
-                                <c:when test="${p.stockActual <= p.stockMinimo}">
-                                    <span class="stock-critico" title="¡Por debajo del stock mínimo!">
-                                        <i class="bi bi-exclamation-triangle-fill me-1"></i>${p.stockActual}
-                                    </span>
-                                </c:when>
-                                <c:otherwise>
-                                    <span class="fw-bold text-success">${p.stockActual}</span>
-                                </c:otherwise>
-                            </c:choose>
-                        </td>
-
-                        <td class="text-center text-muted">${p.stockMinimo}</td>
-                        <td class="small text-secondary">${p.fechaCreacion}</td>
-
-                        <td class="text-center">
-                            <div class="d-flex justify-content-center gap-1">
-                                <a href="ProductoServlet?action=cargarFormularioActualizar&id=${p.idProducto}"
-                                   class="btn btn-outline-primary btn-sm" title="Editar Producto">
-                                    <i class="bi bi-pencil-square"></i>
-                                </a>
-                                <c:if test="${p.estado == 1}">
-                                    <button type="button" class="btn btn-outline-danger btn-sm"
-                                            onclick="abrirModalEstado(${p.idProducto}, '${p.nombre}', 1)" title="Desactivar">
-                                        <i class="bi bi-person-x"></i>
-                                    </button>
-                                </c:if>
-
-                                <c:if test="${p.estado == 0}">
-                                    <button type="button" class="btn btn-outline-success btn-sm"
-                                            onclick="abrirModalEstado(${p.idProducto}, '${p.nombre}', 0)" title="Activar">
-                                        <i class="bi bi-person-check"></i>
-                                    </button>
-                                </c:if>
+                    <div class="col-md-8">
+                        <form action="ProductoServlet" method="GET" class="m-0 d-flex justify-content-md-end gap-2">
+                            <input type="hidden" name="action" value="buscarProductoGeneral">
+                            <div style="max-width: 300px;" class="input-group">
+                                <input type="text" class="form-control" name="txtProductoGeneral" placeholder="Buscar por SKU o nombre..." required>
+                                <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
                             </div>
-                        </td>
-                    </tr>
-                </c:forEach>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
-                <c:if test="${empty listaProducto}">
-                    <tr>
-                        <td colspan="12" class="text-center py-5">
-                            <i class="bi bi-box text-secondary" style="font-size: 2.5rem;"></i>
-                            <h6 class="text-muted mt-3">No hay productos registrados o activos en el sistema.</h6>
-                        </td>
-                    </tr>
-                </c:if>
+            <div class="card-panel p-0 overflow-hidden">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light-header">
+                        <tr>
+                            <th style="width: 50px;">ID</th>
+                            <th>SKU</th>
+                            <th>Producto</th>
+                            <th>Marca</th>
+                            <th>Modelo</th>
+                            <th>Categoría</th>
+                            <th>P. Compra</th>
+                            <th>P. Venta</th>
+                            <th class="text-center">Stock Act.</th>
+                            <th class="text-center">Stock Mín.</th>
+                            <th>Fecha Creación</th>
+                            <th class="text-center" style="width: 100px;">Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
 
-                </tbody>
-            </table>
+                        <c:forEach items="${listaProducto}" var="p">
+                            <tr>
+                                <td class="fw-bold text-dark">${p.idProducto}</td>
+                                <td><span class="badge bg-secondary font-monospace">${p.codigoSku}</span></td>
+                                <td class="fw-bold text-dark">${p.nombre}</td>
+                                <td>${p.marca.nombre}</td>
+                                <td>${p.modelo}</td>
+                                <td>${p.categoria.nombre}</td>
+
+                                <td class="fw-bold text-secondary">S/. ${p.precioCompra}</td>
+                                <td class="fw-bold text-primary">S/. ${p.precioVenta}</td>
+
+                                <td class="text-center">
+                                    <c:choose>
+                                        <c:when test="${p.stockActual <= p.stockMinimo}">
+                                            <span class="stock-critico" title="¡Por debajo del stock mínimo!">
+                                                <i class="bi bi-exclamation-triangle-fill me-1"></i>${p.stockActual}
+                                            </span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <span class="fw-bold text-success">${p.stockActual}</span>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
+
+                                <td class="text-center text-muted">${p.stockMinimo}</td>
+                                <td class="small text-secondary">${p.fechaCreacion}</td>
+
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center gap-1">
+                                        <a href="ProductoServlet?action=cargarFormularioActualizar&id=${p.idProducto}"
+                                           class="btn btn-outline-primary btn-sm" title="Editar Producto">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                        <c:if test="${p.estado == 1}">
+                                            <button type="button" class="btn btn-outline-danger btn-sm"
+                                                    onclick="abrirModalEstado(${p.idProducto}, '${p.nombre}', 1)" title="Desactivar">
+                                                <i class="bi bi-box-seam"></i> </button>
+                                        </c:if>
+
+                                        <c:if test="${p.estado == 0}">
+                                            <button type="button" class="btn btn-outline-success btn-sm"
+                                                    onclick="abrirModalEstado(${p.idProducto}, '${p.nombre}', 0)" title="Activar">
+                                                <i class="bi bi-check2-square"></i> </button>
+                                        </c:if>
+                                    </div>
+                                </td>
+                            </tr>
+                        </c:forEach>
+
+                        <c:if test="${empty listaProducto}">
+                            <tr>
+                                <td colspan="12" class="text-center py-5">
+                                    <i class="bi bi-box text-secondary" style="font-size: 2.5rem;"></i>
+                                    <h6 class="text-muted mt-3">No hay productos registrados o activos en el sistema.</h6>
+                                </td>
+                            </tr>
+                        </c:if>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <div class="modal fade" id="modalCambiarEstado" tabindex="-1" aria-hidden="true">

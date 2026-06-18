@@ -5,7 +5,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.example.sistemawilson.dao.CategoriaDAO;
+import org.example.sistemawilson.dao.MarcaDAO;
 import org.example.sistemawilson.dao.ProductoDAO;
+import org.example.sistemawilson.dao.impl.CategoriaDAOImpl;
+import org.example.sistemawilson.dao.impl.MarcaDAOImpl;
 import org.example.sistemawilson.dao.impl.ProductoDAOImpl;
 import org.example.sistemawilson.model.Categoria;
 import org.example.sistemawilson.model.Marca;
@@ -19,6 +23,8 @@ import java.util.List;
 public class ProductoServlet extends HttpServlet {
 
     ProductoDAO daoProducto = new ProductoDAOImpl();
+    MarcaDAO daoMarca = new MarcaDAOImpl();
+    CategoriaDAO daoCategoria = new CategoriaDAOImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -31,17 +37,24 @@ public class ProductoServlet extends HttpServlet {
 
         switch (action){
             case "listar":
-                List<Producto> lista = daoProducto.listarProducto();
-                req.setAttribute("listaProducto", lista);
+                List<Producto> listaProd = daoProducto.listarProducto();
+                req.setAttribute("listaProducto", listaProd);
                 req.getRequestDispatcher("lista_producto.jsp").forward(req, resp);
                 break;
             case "cargarFormularioRegistrar":
-                //pendiente agregar los combos de cat y marca para que esten poblados
+                List<Marca> listaMarRe = daoMarca.listaMarca();
+                List<Categoria> listaCatRe = daoCategoria.listaCategoria();
+                req.setAttribute("listaMarcas", listaMarRe);
+                req.setAttribute("listaCategorias", listaCatRe);
                 req.getRequestDispatcher("formulario_producto.jsp").forward(req, resp);
                 break;
             case "cargarFormularioActualizar":
                 int id = Integer.parseInt(req.getParameter("id"));
                 Producto productoEncontrado = daoProducto.buscarProductoId(id);
+                List<Marca> listaMarAc = daoMarca.listaMarca();
+                List<Categoria> listaCatAc = daoCategoria.listaCategoria();
+                req.setAttribute("listaMarcas", listaMarAc);
+                req.setAttribute("listaCategorias", listaCatAc);
                 req.setAttribute("producto", productoEncontrado);
                 req.getRequestDispatcher("formulario_producto.jsp").forward(req, resp);
                 break;
@@ -78,6 +91,7 @@ public class ProductoServlet extends HttpServlet {
         prod.setNombre(nom);
         prod.setMarca(m);
         prod.setModelo(mod);
+        prod.setCategoria(c);
         prod.setDescripcion(des);
         prod.setPrecioCompra(preCom);
         prod.setPrecioVenta(preVen);
@@ -112,6 +126,7 @@ public class ProductoServlet extends HttpServlet {
                 break;
             case "actualizarProducto":
                 p = construirProductoDesdeReq(req);
+                p.setIdProducto(Integer.parseInt(req.getParameter("txtId")));
                 boolean actualizar = daoProducto.actualizarProducto(p);
                 if (!actualizar){
                     req.setAttribute("error", "Hubo un problema al actualizar!");

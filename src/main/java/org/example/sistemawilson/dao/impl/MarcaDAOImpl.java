@@ -1,38 +1,34 @@
 package org.example.sistemawilson.dao.impl;
 
-import org.example.sistemawilson.dao.CategoriaDAO;
-import org.example.sistemawilson.model.Categoria;
+import org.example.sistemawilson.dao.MarcaDAO;
 import org.example.sistemawilson.model.Marca;
 import org.example.sistemawilson.util.MySQLConexion;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoriaDAOImpl implements CategoriaDAO {
+public class MarcaDAOImpl implements MarcaDAO {
 
     Connection cn;
     PreparedStatement psm;
     ResultSet rs;
 
     @Override
-    public List<Categoria> listaCategoria() {
-        List<Categoria> lista = new ArrayList<>();
+    public List<Marca> listaMarca() {
+        List<Marca> lista = new ArrayList<>();
         try {
             cn = MySQLConexion.getConnection();
-            String sql = "SELECT * FROM categoria WHERE estado = 1";
+            String sql = "SELECT * FROM marca_producto WHERE estado = 1";
             psm = cn.prepareStatement(sql);
             rs = psm.executeQuery();
             while (rs.next()){
-                Categoria cat = new Categoria();
-                cat.setIdCategoria(rs.getInt("id_categoria"));
-                cat.setNombre(rs.getString("nombre"));
-                cat.setDescripcion(rs.getString("descripcion"));
-                cat.setEstado(rs.getInt("estado"));
-                cat.setFechaCreacion(rs.getTimestamp("fecha_creacion").toString());
-                lista.add(cat);
+                Marca mar = new Marca();
+                mar.setIdMarca(rs.getInt("id_marca"));
+                mar.setNombre(rs.getString("nombre"));
+                mar.setEstado(rs.getInt("estado"));
+                lista.add(mar);
             }
         } catch (Exception e) {
             System.out.println("Error al listar:" + e.getMessage());
@@ -49,13 +45,12 @@ public class CategoriaDAOImpl implements CategoriaDAO {
     }
 
     @Override
-    public boolean registrarCategoria(Categoria categoria) {
+    public boolean registrarMarca(Marca marca) {
         try {
             cn = MySQLConexion.getConnection();
-            String sql = "INSERT INTO categoria (nombre, descripcion) VALUES (?,?)";
+            String sql = "INSERT INTO marca_producto (nombre) VALUES (?)";
             psm = cn.prepareStatement(sql);
-            psm.setString(1, categoria.getNombre());
-            psm.setString(2, categoria.getDescripcion());
+            psm.setString(1, marca.getNombre());
             psm.executeUpdate();
             return true;
         } catch (Exception e) {
@@ -73,13 +68,12 @@ public class CategoriaDAOImpl implements CategoriaDAO {
     }
 
     @Override
-    public boolean actualizarCategoria(Categoria categoria) {
+    public boolean actualizarMarca(Marca marca) {
         try {
             cn = MySQLConexion.getConnection();
-            String sql = "UPDATE categoria SET nombre=?, descripcion=? WHERE id_categoria=?";
+            String sql = "UPDATE marca_producto SET nombre=? WHERE id_marca=?";
             psm = cn.prepareStatement(sql);
-            psm.setString(1, categoria.getNombre());
-            psm.setString(2, categoria.getDescripcion());
+            psm.setString(1, marca.getNombre());
             psm.executeUpdate();
             return true;
         } catch (Exception e) {
@@ -97,13 +91,13 @@ public class CategoriaDAOImpl implements CategoriaDAO {
     }
 
     @Override
-    public boolean actualizarEstadoCategoria(int idCategoria, int estado) {
+    public boolean actualizarEstadoMarca(int idMarca, int estado) {
         try {
             cn = MySQLConexion.getConnection();
-            String sql = "UPDATE categoria SET estado=? WHERE id_categoria=?";
+            String sql = "UPDATE marca_producto SET estado=? WHERE id_marca=?";
             psm = cn.prepareStatement(sql);
             psm.setInt(1, estado);
-            psm.setInt(2, idCategoria);
+            psm.setInt(2, idMarca);
             psm.executeUpdate();
             return true;
         } catch (Exception e) {
@@ -119,4 +113,5 @@ public class CategoriaDAOImpl implements CategoriaDAO {
             }
         }
     }
+
 }

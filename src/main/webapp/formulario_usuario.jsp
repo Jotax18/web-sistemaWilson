@@ -84,109 +84,115 @@
     </style>
 </head>
 <body>
-<div class="container-fluid py-4 px-4 px-xl-5">
+<div class="d-flex" style="min-height: 100vh; background-color: #f4f6f9;">
 
-    <div class="titulo-seccion d-flex align-items-center mb-4">
-        <h4 class="mb-0 fw-bold">
-            <i class="bi bi-person-plus text-success me-2"></i>
-            ${usuario != null ? 'Actualizar Usuario' : 'Registrar Nuevo Usuario'}
-        </h4>
-    </div>
+    <jsp:include page="sidebar.jsp" />
 
-    <div class="card-formulario">
+    <div class="flex-grow-1 overflow-auto">
 
-        <form action="UsuarioServlet" method="post" id="formUsuario" onsubmit="return validarFormulario(event)">
+        <div class="container-fluid py-4 px-4 px-xl-5">
 
-            <input type="hidden" name="action" value="${usuario != null ? 'actualizarUsuario' : 'registrarUsuario'}">
-            <input type="hidden" name="txtIdUsuario" value="${usuario.idUsuario}">
-
-            <div class="seccion-titulo">
-                <i class="bi bi-person-vcard me-2"></i>Datos Personales
+            <div class="titulo-seccion d-flex align-items-center mb-4 ${usuario != null ? 'titulo-edicion' : ''}">
+                <h4 class="mb-0 fw-bold">
+                    <i class="bi ${usuario != null ? 'bi-pencil-square text-primary' : 'bi-person-plus text-success'} me-2"></i>
+                    ${usuario != null ? 'Actualizar Usuario' : 'Registrar Nuevo Usuario'}
+                </h4>
             </div>
 
-            <div class="row g-4 mb-4">
-                <input type="hidden" name="txtIdUsuario" value="${usuario.idUsuario}">
+            <div class="card-formulario">
 
-                <div class="col-md-6">
-                    <label class="form-label">Nombres Completos <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" name="txtNombres" value="${usuario.nombres}" required>
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Apellidos <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" name="txtApellidos" value="${usuario.apellidos}" required>
-                </div>
+                <form action="UsuarioServlet" method="post" id="formUsuario" onsubmit="return validarFormulario(event)">
 
-                <div class="col-md-6">
-                    <label class="form-label">DNI <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" name="txtDni" value="${usuario.dni}" maxlength="8" required>
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Celular</label>
-                    <input type="text" class="form-control" name="txtCelular" value="${usuario.celular}"  maxlength="9" minlength="9" required>
-                </div>
-            </div>
+                    <input type="hidden" name="action" value="${usuario != null ? 'actualizarUsuario' : 'registrarUsuario'}">
+                    <input type="hidden" name="txtIdUsuario" value="${usuario.idUsuario}">
 
-            <div class="seccion-titulo mt-5">
-                <i class="bi bi-shield-lock me-2"></i>Credenciales de Acceso
-            </div>
-
-            <div class="row g-4 mb-4">
-                <div class="col-md-6">
-                    <label class="form-label">Username <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" name="txtUsuario" value="${usuario.username}" required>
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Correo Electrónico <span class="text-danger">*</span></label>
-                    <input type="email" class="form-control" name="txtEmail" value="${usuario.email}" required>
-                </div>
-
-                <div class="col-md-12">
-                    <label class="form-label">Rol del Sistema <span class="text-danger">*</span></label>
-                    <select class="form-select" name="cboRol" required>
-                        <option value="">Seleccione un rol...</option>
-                        <option value="1" ${usuario.rol.idRol == 1 ? 'selected' : ''}>Administrador</option>
-                        <option value="2" ${usuario.rol.idRol == 2 ? 'selected' : ''}>Vendedor</option>
-                    </select>
-                </div>
-
-                <div class="col-md-6">
-                    <label class="form-label">${usuario != null ? 'Nueva ' : ''}Contraseña <span class="text-danger">*</span></label>
-                    <div class="input-group">
-                        <input type="password" class="form-control" name="txtClave" id="txtClave" required placeholder="Mínimo 8 caracteres">
-                        <button class="btn btn-toggle-password" type="button" onclick="togglePassword('txtClave', 'iconClave')">
-                            <i class="bi bi-eye" id="iconClave"></i>
-                        </button>
+                    <div class="seccion-titulo">
+                        <i class="bi bi-person-vcard me-2"></i>Datos Personales
                     </div>
-                    <c:if test="${usuario != null}">
-                        <small class="text-muted">Si no desea cambiarla del usuario, repita la misma.</small>
-                    </c:if>
-                </div>
 
-                <div class="col-md-6">
-                    <label class="form-label">Confirmar Contraseña <span class="text-danger">*</span></label>
-                    <div class="input-group">
-                        <input type="password" class="form-control" id="txtConfirmarClave" required placeholder="Repita la contraseña">
-                        <button class="btn btn-toggle-password" type="button" onclick="togglePassword('txtConfirmarClave', 'iconConfirmar')">
-                            <i class="bi bi-eye" id="iconConfirmar"></i>
-                        </button>
-                    </div>
-                    <div id="msjErrorClave" class="text-danger small mt-1 d-none fw-bold">
-                        <i class="bi bi-exclamation-triangle"></i> Las contraseñas no coinciden.
-                    </div>
-                </div>
-            </div>
-                <div class="d-flex justify-content-end gap-3 mt-5 pt-3 border-top">
-                    <a href="UsuarioServlet?action=listar" class="btn btn-outline-secondary">
-                        <i class="bi bi-arrow-left me-1"></i> Volver al Listado
-                    </a>
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label">Nombres Completos <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="txtNombres" value="${usuario.nombres}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Apellidos <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="txtApellidos" value="${usuario.apellidos}" required>
+                        </div>
 
-                    <button type="submit" id="btnGuardar" class="btn ${usuario != null ? 'btn-primary' : 'btn-success'}">
+                        <div class="col-md-6">
+                            <label class="form-label">DNI <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="txtDni" value="${usuario.dni}" maxlength="8" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Celular</label>
+                            <input type="text" class="form-control" name="txtCelular" value="${usuario.celular}"  maxlength="9" minlength="9" required>
+                        </div>
+                    </div>
+
+                    <div class="seccion-titulo mt-5">
+                        <i class="bi bi-shield-lock me-2"></i>Credenciales de Acceso
+                    </div>
+
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label">Username <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="txtUsuario" value="${usuario.username}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Correo Electrónico <span class="text-danger">*</span></label>
+                            <input type="email" class="form-control" name="txtEmail" value="${usuario.email}" required>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label class="form-label">Rol del Sistema <span class="text-danger">*</span></label>
+                            <select class="form-select" name="cboRol" required>
+                                <option value="">Seleccione un rol...</option>
+                                <option value="1" ${usuario.rol.idRol == 1 ? 'selected' : ''}>Administrador</option>
+                                <option value="2" ${usuario.rol.idRol == 2 ? 'selected' : ''}>Vendedor</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">${usuario != null ? 'Nueva ' : ''}Contraseña <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" name="txtClave" id="txtClave" required placeholder="Mínimo 8 caracteres">
+                                <button class="btn btn-toggle-password" type="button" onclick="togglePassword('txtClave', 'iconClave')">
+                                    <i class="bi bi-eye" id="iconClave"></i>
+                                </button>
+                            </div>
+                            <c:if test="${usuario != null}">
+                                <small class="text-muted">Si no desea cambiarla del usuario, repita la misma.</small>
+                            </c:if>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Confirmar Contraseña <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="txtConfirmarClave" required placeholder="Repita la contraseña">
+                                <button class="btn btn-toggle-password" type="button" onclick="togglePassword('txtConfirmarClave', 'iconConfirmar')">
+                                    <i class="bi bi-eye" id="iconConfirmar"></i>
+                                </button>
+                            </div>
+                            <div id="msjErrorClave" class="text-danger small mt-1 d-none fw-bold">
+                                <i class="bi bi-exclamation-triangle"></i> Las contraseñas no coinciden.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-3 mt-5 pt-3 border-top">
+                        <a href="UsuarioServlet?action=listar" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-1"></i> Volver al Listado
+                        </a>
+
+                        <button type="submit" id="btnGuardar" class="btn ${usuario != null ? 'btn-primary' : 'btn-success'}">
                             <i class="bi bi-floppy me-1"></i> ${usuario != null ? 'Guardar Cambios' : 'Registrar Usuario'}
-                    </button>
-                </div>
-        </form>
-    </div>
-</div>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div> </div> </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
