@@ -5,6 +5,7 @@ import java.util.List;
 
 public interface CategoriaDAO {
     public List<Categoria> listaCategoria();
+    public Categoria buscarCategoriaId(int idCategoria);
     public boolean registrarCategoria(Categoria categoria);
     public boolean actualizarCategoria(Categoria categoria);
     public boolean actualizarEstadoCategoria(int idCategoria, int estado);

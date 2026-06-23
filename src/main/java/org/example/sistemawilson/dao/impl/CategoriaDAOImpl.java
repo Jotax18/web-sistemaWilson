@@ -8,14 +8,15 @@ import org.example.sistemawilson.util.MySQLConexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CategoriaDAOImpl implements CategoriaDAO {
 
-    Connection cn;
-    PreparedStatement psm;
-    ResultSet rs;
+    Connection cn = null;
+    PreparedStatement psm = null;
+    ResultSet rs = null;
 
     @Override
     public List<Categoria> listaCategoria() {
@@ -46,6 +47,36 @@ public class CategoriaDAOImpl implements CategoriaDAO {
             }
         }
         return lista;
+    }
+
+    @Override
+    public Categoria buscarCategoriaId(int idCategoria) {
+        try {
+            cn = MySQLConexion.getConnection();
+            String sql = "SELECT * FROM categoria WHERE id_categoria = ?";
+            psm = cn.prepareStatement(sql);
+            psm.setInt(1, idCategoria);
+            rs = psm.executeQuery();
+            if (rs.next()){
+                Categoria cat = new Categoria();
+                cat.setNombre(rs.getString("nombre"));
+                cat.setDescripcion(rs.getString("descripcion"));
+                cat.setEstado(rs.getInt("estado"));
+                cat.setFechaCreacion(rs.getTimestamp("fecha_creacion").toString());
+                return cat;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al buscar" + e.getMessage());
+        } finally {
+            try {
+                if (cn!= null) MySQLConexion.closeConexion(cn);
+                if (psm!= null) psm.close();
+                if (rs!= null) rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
     @Override

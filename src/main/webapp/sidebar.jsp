@@ -96,10 +96,10 @@
                     <a href="ProductoServlet?action=listar" class="sidebar-sublink">
                         <i class="bi bi-circle-fill me-2" style="font-size: 0.4rem;"></i> Gestión de Productos
                     </a>
-                    <a href="#" class="sidebar-sublink">
-                        <i class="bi bi-circle-fill me-2" style="font-size: 0.4rem;"></i> Categorías
+                    <a href="CategoriaServlet?action=listar" class="sidebar-sublink">
+                            <i class="bi bi-circle-fill me-2" style="font-size: 0.4rem;"></i> Categorías
                     </a>
-                    <a href="#" class="sidebar-sublink">
+                    <a href="MarcaServlet?action=listar" class="sidebar-sublink">
                         <i class="bi bi-circle-fill me-2" style="font-size: 0.4rem;"></i> Marcas
                     </a>
                 </div>

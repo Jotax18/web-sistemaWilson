@@ -1,11 +1,13 @@
 package org.example.sistemawilson.dao.impl;
 
 import org.example.sistemawilson.dao.MarcaDAO;
+import org.example.sistemawilson.model.Categoria;
 import org.example.sistemawilson.model.Marca;
 import org.example.sistemawilson.util.MySQLConexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +44,35 @@ public class MarcaDAOImpl implements MarcaDAO {
             }
         }
         return lista;
+    }
+
+    @Override
+    public Marca buscarMarcaId(int idMarca) {
+        try {
+            cn = MySQLConexion.getConnection();
+            String sql = "SELECT * FROM marca_producto WHERE id_marca = ?";
+            psm = cn.prepareStatement(sql);
+            psm.setInt(1, idMarca);
+            rs = psm.executeQuery();
+            if (rs.next()){
+                Marca mar = new Marca();
+                mar.setNombre(rs.getString("nombre"));
+                mar.setEstado(rs.getInt("estado"));
+                mar.setFechaCreacion(rs.getTimestamp("fecha_creacion").toString());
+                return mar;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al buscar" + e.getMessage());
+        } finally {
+            try {
+                if (cn!= null) MySQLConexion.closeConexion(cn);
+                if (psm!= null) psm.close();
+                if (rs!= null) rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
     @Override
