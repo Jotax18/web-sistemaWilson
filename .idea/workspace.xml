@@ -10,19 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6ccff246-1ae6-40a3-86b5-071bc23b830e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/SistemaWilson_Web_exploded.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/webContexts.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/sistemawilson/dao/CategoriaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/sistemawilson/dao/CategoriaDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/sistemawilson/dao/MarcaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/sistemawilson/dao/MarcaDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/sistemawilson/dao/impl/CategoriaDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/sistemawilson/dao/impl/CategoriaDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/sistemawilson/dao/impl/MarcaDAOImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/sistemawilson/dao/impl/MarcaDAOImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/sistemawilson/model/Marca.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/sistemawilson/model/Marca.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/sidebar.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/sidebar.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/sistemawilson/model/IngresoStock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/sistemawilson/model/IngresoStock.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,13 +19,14 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="119" />
+    <option name="cachedIndexableFilesCount" value="126" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
         <option value="Jsp File" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -79,61 +69,61 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.0000601948672176" />
-      <entry key="MS500" value="1.1431897372474698" />
-      <entry key="S2" value="1.6151456723755722" />
-      <entry key="S5" value="1.8233627010181148" />
-      <entry key="S10" value="1.9073971444188396" />
-      <entry key="S30" value="1.9854028253140212" />
-      <entry key="S60" value="2.1975278904390296" />
-      <entry key="M2" value="3.2396170654454117" />
-      <entry key="M5" value="7.714972784740447" />
-      <entry key="M10" value="13.944494803329693" />
-      <entry key="M15" value="18.10294748891484" />
-      <entry key="M30" value="25.187102083400166" />
-      <entry key="H1" value="32.7433674158401" />
-      <entry key="H2" value="40.484044857558494" />
-      <entry key="H4" value="53.94689983613322" />
-      <entry key="D1" value="229.73655283050437" />
-      <entry key="W1" value="363.4042814499412" />
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="0.0" />
+      <entry key="S10" value="0.0" />
+      <entry key="S30" value="0.0" />
+      <entry key="S60" value="0.0" />
+      <entry key="M2" value="7.990590214680692E-208" />
+      <entry key="M5" value="1.4488770844443637E-83" />
+      <entry key="M10" value="3.8064118069966674E-42" />
+      <entry key="M15" value="2.437869840041505E-28" />
+      <entry key="M30" value="1.5613679387131993E-14" />
+      <entry key="H1" value="1.2495470934355373E-7" />
+      <entry key="H2" value="3.534893341305699E-4" />
+      <entry key="H4" value="0.018801339453427355" />
+      <entry key="D1" value="0.9537149479580709" />
+      <entry key="W1" value="175.3619772571497" />
     </decayedCancelled>
     <decayedSelected>
-      <entry key="MS100" value="8.641064461722549E-11" />
-      <entry key="MS500" value="0.00971210678831203" />
-      <entry key="S2" value="0.31392677769988786" />
-      <entry key="S5" value="0.6291168899859235" />
-      <entry key="S10" value="0.793172923525746" />
-      <entry key="S30" value="0.9795034235845528" />
-      <entry key="S60" value="1.731765274677334" />
-      <entry key="M2" value="4.436551708518033" />
-      <entry key="M5" value="11.321146783183272" />
-      <entry key="M10" value="17.50971592876073" />
-      <entry key="M15" value="20.798588188583295" />
-      <entry key="M30" value="25.479098689949037" />
-      <entry key="H1" value="29.797124863586532" />
-      <entry key="H2" value="34.22589678629274" />
-      <entry key="H4" value="42.42855297968013" />
-      <entry key="D1" value="131.23739131126607" />
-      <entry key="W1" value="193.8902577691495" />
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.0" />
+      <entry key="S2" value="1.0" />
+      <entry key="S5" value="1.0" />
+      <entry key="S10" value="1.0" />
+      <entry key="S30" value="1.0" />
+      <entry key="S60" value="1.0" />
+      <entry key="M2" value="1.0" />
+      <entry key="M5" value="1.0" />
+      <entry key="M10" value="1.0" />
+      <entry key="M15" value="1.0" />
+      <entry key="M30" value="1.000000000000031" />
+      <entry key="H1" value="1.0000002490147561" />
+      <entry key="H2" value="1.0007057120279252" />
+      <entry key="H4" value="1.0375689508074333" />
+      <entry key="D1" value="2.197359051699288" />
+      <entry key="W1" value="67.86273384177125" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.7579058396872183" />
-      <entry key="MS500" value="1.0853979205111408" />
-      <entry key="S2" value="1.8230264391589595" />
-      <entry key="S5" value="2.3683614846831262" />
-      <entry key="S10" value="2.6470767977201897" />
-      <entry key="S30" value="2.9426082189962126" />
-      <entry key="S60" value="3.908753868384634" />
-      <entry key="M2" value="7.647936018416045" />
-      <entry key="M5" value="19.004232035365707" />
-      <entry key="M10" value="31.42775035400039" />
-      <entry key="M15" value="38.87989668727771" />
-      <entry key="M30" value="50.65223158178828" />
-      <entry key="H1" value="62.53179355511077" />
-      <entry key="H2" value="74.7046259815953" />
-      <entry key="H4" value="96.37107379831467" />
-      <entry key="D1" value="360.96736490974075" />
-      <entry key="W1" value="557.2929365653138" />
+      <entry key="MS100" value="4.315837287515547E-5" />
+      <entry key="MS500" value="0.1339716828170366" />
+      <entry key="S2" value="0.6049970446096462" />
+      <entry key="S5" value="0.8179020585577812" />
+      <entry key="S10" value="0.9043793775610881" />
+      <entry key="S30" value="0.967052867143425" />
+      <entry key="S60" value="0.9833884619739165" />
+      <entry key="M2" value="0.9916594485880303" />
+      <entry key="M5" value="0.9966553943235781" />
+      <entry key="M10" value="0.9983262965201197" />
+      <entry key="M15" value="0.9988838861946175" />
+      <entry key="M30" value="0.9994417872966442" />
+      <entry key="H1" value="0.9997212284736514" />
+      <entry key="H2" value="1.00091935980725" />
+      <entry key="H4" value="1.0562936016560425" />
+      <entry key="D1" value="3.151024215352026" />
+      <entry key="W1" value="243.22417185969888" />
     </decayedShown>
   </component>
   <component name="ProblemsViewState">
@@ -151,35 +141,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.MCP Project settings loaded": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "Tomcat Server.SistemaWilsonServer.executor": "Run",
-    "Tomcat Server.login_usuario.jsp.executor": "Run",
-    "codeWithMe.voiceChat.enabledByDefault": "false",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "main",
-    "junie.onboarding.icon.badge.shown": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/jota/IdeaProjects/web-sistemaWilson",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "SDKs",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.23678161",
-    "settings.editor.selected.configurable": "editor.preferences.completion.inline",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;Tomcat Server.SistemaWilsonServer.executor&quot;: &quot;Run&quot;,
+    &quot;Tomcat Server.login_usuario.jsp.executor&quot;: &quot;Run&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/jota/IdeaProjects/web-sistemaWilson&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.23678161&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.completion.inline&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunDashboard">
     <option name="configurationStatuses">
       <map>
@@ -309,7 +299,10 @@
       <workItem from="1782141238518" duration="559000" />
       <workItem from="1782141808902" duration="270000" />
       <workItem from="1782142094246" duration="58000" />
-      <workItem from="1782142160903" duration="30738000" />
+      <workItem from="1782142160903" duration="40121000" />
+      <workItem from="1782570748010" duration="105000" />
+      <workItem from="1782570865144" duration="28534000" />
+      <workItem from="1783556484341" duration="29182000" />
     </task>
     <servers />
   </component>

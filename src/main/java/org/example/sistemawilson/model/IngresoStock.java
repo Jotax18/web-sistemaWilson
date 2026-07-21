@@ -2,6 +2,7 @@ package org.example.sistemawilson.model;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class IngresoStock {
     DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -10,16 +11,26 @@ public class IngresoStock {
     private String loteStock;
     private Usuario usuario;
     private String fechaIngreso = LocalDate.now().format(formato);
+    private List<DetalleIngresoStock> listaDetalle;
 
     public IngresoStock() {
 
     }
 
-    public IngresoStock(Integer idIngresoStock, String loteStock, Usuario usuario, String fechaIngreso) {
+    public IngresoStock(Integer idIngresoStock, String loteStock, Usuario usuario, List<DetalleIngresoStock> listaDetalle, String fechaIngreso) {
         this.idIngresoStock = idIngresoStock;
         this.loteStock = loteStock;
         this.usuario = usuario;
+        this.listaDetalle = listaDetalle;
         this.fechaIngreso = fechaIngreso;
+    }
+
+    public List<DetalleIngresoStock> getListaDetalle() {
+        return listaDetalle;
+    }
+
+    public void setListaDetalle(List<DetalleIngresoStock> listaDetalle) {
+        this.listaDetalle = listaDetalle;
     }
 
     public Integer getIdIngresoStock() {
