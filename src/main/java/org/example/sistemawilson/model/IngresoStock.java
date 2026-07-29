@@ -10,19 +10,29 @@ public class IngresoStock {
     private Integer idIngresoStock;
     private String loteStock;
     private Usuario usuario;
-    private String fechaIngreso = LocalDate.now().format(formato);
+    private int estado;
     private List<DetalleIngresoStock> listaDetalle;
+    private String fechaIngreso = LocalDate.now().format(formato);
 
     public IngresoStock() {
 
     }
 
-    public IngresoStock(Integer idIngresoStock, String loteStock, Usuario usuario, List<DetalleIngresoStock> listaDetalle, String fechaIngreso) {
+    public IngresoStock(Integer idIngresoStock, String loteStock, Usuario usuario, List<DetalleIngresoStock> listaDetalle, int estado, String fechaIngreso) {
         this.idIngresoStock = idIngresoStock;
         this.loteStock = loteStock;
         this.usuario = usuario;
+        this.estado = estado;
         this.listaDetalle = listaDetalle;
         this.fechaIngreso = fechaIngreso;
+    }
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
     }
 
     public List<DetalleIngresoStock> getListaDetalle() {
