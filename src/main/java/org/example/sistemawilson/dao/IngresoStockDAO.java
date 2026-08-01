@@ -8,8 +8,7 @@ import java.util.List;
 public interface IngresoStockDAO {
     public List<IngresoStock> listarIngresoStock();
     public boolean registrarStock(IngresoStock ingresoStock);
-    public boolean actualizarStock(IngresoStock actualizarStock);
-    public boolean actualizarEstadoStock(int estado, int idIngresoStock);
+    public boolean anularIngresoStock(int idIngresoStock);
     public List<IngresoStock> buscarIngresoStock(String terminoBusqueda);
     public IngresoStock buscarIngresoStockPorId(int idIngresoStock);
 }

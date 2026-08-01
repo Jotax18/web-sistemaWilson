@@ -5,16 +5,26 @@ public class DetalleIngresoStock {
     private Producto producto;
     private int cantidad;
     private double precioUnitario;
+    private double subtotal;
 
     public DetalleIngresoStock() {
 
     }
 
-    public DetalleIngresoStock(IngresoStock ingresoStock, Producto producto, int cantidad, double precioUnitario) {
+    public DetalleIngresoStock(IngresoStock ingresoStock, Producto producto, int cantidad, double precioUnitario, double subtotal) {
         this.ingresoStock = ingresoStock;
         this.producto = producto;
         this.cantidad = cantidad;
         this.precioUnitario = precioUnitario;
+        this.subtotal = subtotal;
+    }
+
+    public double getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(double subtotal) {
+        this.subtotal = subtotal;
     }
 
     public IngresoStock getIngresoStock() {

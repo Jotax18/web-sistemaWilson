@@ -3,9 +3,8 @@ package org.example.sistemawilson.dao.impl;
 import org.example.sistemawilson.dao.IngresoStockDAO;
 import org.example.sistemawilson.model.*;
 import org.example.sistemawilson.util.MySQLConexion;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +25,7 @@ public class IngresoStockImpl implements IngresoStockDAO {
                 i.lote_stock,
                 i.fecha_ingreso,
                 u.id_usuario,
-                u.nombres,
+                u.nombres
             FROM ingreso_stock i
             INNER JOIN usuario u
             ON i.id_usuario = u.id_usuario
@@ -63,19 +62,62 @@ public class IngresoStockImpl implements IngresoStockDAO {
     public boolean registrarStock(IngresoStock ingresoStock) {
         try {
             cn = MySQLConexion.getConnection();
+            cn.setAutoCommit(false);
             String sql = "INSERT INTO ingreso_stock (lote_stock, id_usuario) VALUES (?,?)";
-            psm = cn.prepareStatement(sql);
+            // Permite recuperar el ID autogenerado por la base de datos
+            // después de insertar la cabecera del ingreso de stock.
+            psm = cn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             psm.setString(1, ingresoStock.getLoteStock());
             psm.setInt(2, ingresoStock.getUsuario().getIdUsuario());
             psm.executeUpdate();
+            rs = psm.getGeneratedKeys();
+            int idIngreso = 0;
+            if (rs.next()){
+                idIngreso = rs.getInt(1);
+            }
+            if(idIngreso == 0){
+                throw new SQLException("No se pudo obtener el ID del ingreso.");
+            }
+            for(DetalleIngresoStock d : ingresoStock.getListaDetalle()){
+                String sql1 = "INSERT INTO detalle_ingreso_stock (id_ingreso_stock, id_producto, cantidad, costo_unitario, subtotal) VALUES (?,?,?,?,?)";
+                PreparedStatement psmDetalle = cn.prepareStatement(sql1);
+                psmDetalle.setInt(1, idIngreso);
+                psmDetalle.setInt(2, d.getProducto().getIdProducto());
+                psmDetalle.setInt(3, d.getCantidad());
+                psmDetalle.setDouble(4, d.getPrecioUnitario());
+                psmDetalle.setDouble(5, d.getSubtotal());
+                psmDetalle.executeUpdate();
+                String sql2 = "UPDATE producto SET stock_actual = stock_actual + ? WHERE id_producto = ?";
+                PreparedStatement psmProducto = cn.prepareStatement(sql2);
+                psmProducto.setInt(1, d.getCantidad());
+                psmProducto.setInt(2, d.getProducto().getIdProducto());
+                psmProducto.executeUpdate();
+                psmDetalle.close();
+                psmProducto.close();
+            }
+            cn.commit();
             return true;
         } catch (Exception e) {
-            System.out.println("Error al registrar: " + e.getMessage() );
+            try {
+                if (cn != null) {
+                    cn.rollback();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+
+            System.out.println("Error al ingresar stock; transacción revertida");
+            e.printStackTrace();
             return false;
         } finally {
             try {
+                if (cn != null) {
+                    cn.setAutoCommit(true);
+                    MySQLConexion.closeConexion(cn);
+                }
+
                 if (psm != null) psm.close();
-                if (cn != null) MySQLConexion.closeConexion(cn);
+                if (rs != null) rs.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -83,49 +125,8 @@ public class IngresoStockImpl implements IngresoStockDAO {
     }
 
     @Override
-    public boolean actualizarStock(IngresoStock actualizarStock) {
-        try {
-            cn = MySQLConexion.getConnection();
-            String sql = "INSERT INTO ingreso_stock (lote_stock, id_usuario) VALUES (?,?)";
-            psm = cn.prepareStatement(sql);
-            psm.setString(1, actualizarStock.getLoteStock());
-            psm.setInt(2, actualizarStock.getUsuario().getIdUsuario());
-            psm.executeUpdate();
-            return true;
-        } catch (Exception e) {
-            System.out.println("Error al actualizar: " + e.getMessage() );
-            return false;
-        } finally {
-            try {
-                if (psm != null) psm.close();
-                if (cn != null) MySQLConexion.closeConexion(cn);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @Override
-    public boolean actualizarEstadoStock(int estado, int idIngresoStock){
-        try {
-            cn = MySQLConexion.getConnection();
-            String sql = "INSERT INTO ingreso_stock (lote_stock, id_usuario) VALUES (?,?)";
-            psm = cn.prepareStatement(sql);
-            psm.setInt(1, estado);
-            psm.setInt(2, idIngresoStock);
-            psm.executeUpdate();
-            return true;
-        } catch (Exception e) {
-            System.out.println("Error al actualizar estado: " + e.getMessage() );
-            return false;
-        } finally {
-            try {
-                if (psm != null) psm.close();
-                if (cn != null) MySQLConexion.closeConexion(cn);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+    public boolean anularIngresoStock (int idIngresoStock){
+        return true;
     }
 
     @Override
