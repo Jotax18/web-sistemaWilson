@@ -126,7 +126,61 @@ public class IngresoStockImpl implements IngresoStockDAO {
 
     @Override
     public boolean anularIngresoStock (int idIngresoStock){
-        return true;
+        try {
+            cn = MySQLConexion.getConnection();
+            cn.setAutoCommit(false);
+            String sql = "SELECT id_ingreso_stock FROM ingreso_stock WHERE id_ingreso_stock = ? AND estado = 1";
+            psm = cn.prepareStatement(sql);
+            psm.setInt(1, idIngresoStock);
+            rs = psm.executeQuery();
+            if (!rs.next()){
+                throw new SQLException("El ingreso no existe o ya fue anulado");
+            }
+            String selectDetalleIngreso = "SELECT id_producto, cantidad FROM detalle_ingreso_stock WHERE id_ingreso_stock = ?";
+            psm = cn.prepareStatement(selectDetalleIngreso);
+            psm.setInt(1, idIngresoStock);
+            rs = psm.executeQuery();
+            while (rs.next()){
+                int idProducto = rs.getInt("id_producto");
+                int cantidad = rs.getInt("cantidad");
+
+                String sql1 = "UPDATE producto SET stock_actual = stock_actual - ? WHERE id_producto = ?";
+                PreparedStatement psmUpdate = cn.prepareStatement(sql1);
+                psmUpdate.setInt(1, cantidad);
+                psmUpdate.setInt(2, idProducto);
+                psmUpdate.executeUpdate();
+                psmUpdate.close();
+            }
+            String sql2 = "UPDATE ingreso_stock SET estado = 0 WHERE id_ingreso_stock = ?";
+            psm = cn.prepareStatement(sql2);
+            psm.setInt(1, idIngresoStock);
+            psm.executeUpdate();
+            cn.commit();
+            return true;
+        } catch (Exception e) {
+            try {
+                if (cn != null) {
+                    cn.rollback();
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            System.out.println("Error al anular ingreso Stock, transaccion revertida");
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.setAutoCommit(true);
+                    MySQLConexion.closeConexion(cn);
+                }
+
+                if (psm != null) psm.close();
+                if (rs != null) rs.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
     }
 
     @Override
