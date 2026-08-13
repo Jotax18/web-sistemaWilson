@@ -37,7 +37,7 @@ public class IngresoStockServlet extends HttpServlet {
             case "cargarFormularioRegistrar":
                 req.getRequestDispatcher("formulario_ingreso_stock.jsp").forward(req, resp);
                 break;
-            case "cargarFomularioActualizar":
+            case "cargarFormularioActualizar":
                 int id = Integer.parseInt(req.getParameter("id"));
                 IngresoStock ingresoEncontrado = daoIngreso.buscarIngresoStockPorId(id);
                 //List<Proveedor> listProve = daoProveedor.listarProveedor();
@@ -47,11 +47,12 @@ public class IngresoStockServlet extends HttpServlet {
                 req.setAttribute("ingresoEncontrado", ingresoEncontrado);
                 req.getRequestDispatcher("formulario_ingreso_stock.jsp").forward(req, resp);
                 break;
-            case "cargarFormularioActualizar":
+            case "buscarIngreso":
                 String ingresoGeneral = req.getParameter("txtIngresoGeneral");
                 List<IngresoStock> listaGeneral = daoIngreso.buscarIngresoStock(ingresoGeneral);
                 req.setAttribute("listGeneral", listaGeneral);
                 req.getRequestDispatcher("lista_ingreso_stock.jsp").forward(req, resp);
+                break;
             default:
                 resp.sendRedirect("error.jsp");
         }
@@ -59,13 +60,14 @@ public class IngresoStockServlet extends HttpServlet {
 
     private IngresoStock construirIngresoStockDesdeReq (HttpServletRequest req){
         String lote = req.getParameter("txtLoteStock");
-        String usu = req.getParameter("cboUsuario");
-        Usuario u = new Usuario();
-        u.setNombres(usu);
+        //JAVA SABE QUE DEVOLVERA EL ID DE ESE USUARIO DE LA SESSION POR EL ATRIBUTO "usuarioSession"
+        //porque ya fue declarada antes en loginServlet y hay una cookie que esta guardando la session con ese nombre y la podremos
+        //recuperar pidiendola con getAtributte("ususarioSession")
+        Usuario usuSesion = (Usuario) req.getSession().getAttribute("usuarioSession");
 
         IngresoStock ingStock = new IngresoStock();
         ingStock.setLoteStock(lote);
-        ingStock.setUsuario(u);
+        ingStock.setUsuario(usuSesion);
         return ingStock;
     }
 

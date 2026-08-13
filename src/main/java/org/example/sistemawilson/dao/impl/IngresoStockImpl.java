@@ -128,7 +128,9 @@ public class IngresoStockImpl implements IngresoStockDAO {
     public boolean anularIngresoStock (int idIngresoStock){
         try {
             cn = MySQLConexion.getConnection();
+            //0. siempre cuando es transaccion y comienza le decimos a la conexion que desactive cambios para prevenir
             cn.setAutoCommit(false);
+            //1. verificamos si el ingreso de stock existe, si existe obtenemos el id sino existe lanzamos una exception
             String sql = "SELECT id_ingreso_stock FROM ingreso_stock WHERE id_ingreso_stock = ? AND estado = 1";
             psm = cn.prepareStatement(sql);
             psm.setInt(1, idIngresoStock);
@@ -136,14 +138,18 @@ public class IngresoStockImpl implements IngresoStockDAO {
             if (!rs.next()){
                 throw new SQLException("El ingreso no existe o ya fue anulado");
             }
+            //2. select para obtener el detalle del ingreso de stock, con el id_ingreso_stock que ya teniamos previamente
+            //especificamente le hacemos select al detalle y obtnemos cuantos productos y que cantidades tiene ese detalle de ingreso
+            //para saber lo que se tiene que restar de cada producto
             String selectDetalleIngreso = "SELECT id_producto, cantidad FROM detalle_ingreso_stock WHERE id_ingreso_stock = ?";
             psm = cn.prepareStatement(selectDetalleIngreso);
             psm.setInt(1, idIngresoStock);
             rs = psm.executeQuery();
+            //3. obtenemos y guardamos en una variable lo que proximamente querremos restar
             while (rs.next()){
                 int idProducto = rs.getInt("id_producto");
                 int cantidad = rs.getInt("cantidad");
-
+                //4. revertimos (actualizamos) el stock de cada producto con las variables previamente declaradas
                 String sql1 = "UPDATE producto SET stock_actual = stock_actual - ? WHERE id_producto = ?";
                 PreparedStatement psmUpdate = cn.prepareStatement(sql1);
                 psmUpdate.setInt(1, cantidad);
@@ -151,11 +157,13 @@ public class IngresoStockImpl implements IngresoStockDAO {
                 psmUpdate.executeUpdate();
                 psmUpdate.close();
             }
+            //4. Anulamos la cabecera del ingreso_stock del cual estabamos obteniendo el detalle
             String sql2 = "UPDATE ingreso_stock SET estado = 0 WHERE id_ingreso_stock = ?";
             psm = cn.prepareStatement(sql2);
             psm.setInt(1, idIngresoStock);
             psm.executeUpdate();
             cn.commit();
+            //5. en caso esta bien la transaccion hacemos return true
             return true;
         } catch (Exception e) {
             try {
