@@ -86,6 +86,7 @@
             <i class="bi bi-speedometer2 me-3"></i> Dashboard
         </a>
 
+        <!-- MÓDULO: PRODUCTOS -->
         <div>
             <a class="sidebar-link" data-bs-toggle="collapse" href="#moduloProductos" role="button" aria-expanded="false" aria-controls="moduloProductos">
                 <i class="bi bi-box-seam me-3"></i> Productos
@@ -97,7 +98,7 @@
                         <i class="bi bi-circle-fill me-2" style="font-size: 0.4rem;"></i> Gestión de Productos
                     </a>
                     <a href="CategoriaServlet?action=listar" class="sidebar-sublink">
-                            <i class="bi bi-circle-fill me-2" style="font-size: 0.4rem;"></i> Categorías
+                        <i class="bi bi-circle-fill me-2" style="font-size: 0.4rem;"></i> Categorías
                     </a>
                     <a href="MarcaServlet?action=listar" class="sidebar-sublink">
                         <i class="bi bi-circle-fill me-2" style="font-size: 0.4rem;"></i> Marcas
@@ -106,6 +107,23 @@
             </div>
         </div>
 
+        <!-- MÓDULO: INVENTARIO Y STOCK -->
+        <div>
+            <a class="sidebar-link" data-bs-toggle="collapse" href="#moduloInventario" role="button" aria-expanded="false" aria-controls="moduloInventario">
+                <i class="bi bi-boxes me-3"></i> Inventario y Stock
+                <i class="bi bi-chevron-down ms-auto" style="font-size: 0.8rem;"></i>
+            </a>
+            <div class="collapse" id="moduloInventario">
+                <div class="bg-dark bg-opacity-25 py-1">
+                    <!-- Enlace apuntando al Servlet que indicaste -->
+                    <a href="IngresoStockServlet?action=listar" class="sidebar-sublink">
+                        <i class="bi bi-circle-fill me-2" style="font-size: 0.4rem;"></i> Ingresos de Stock
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- MÓDULO: USUARIOS -->
         <div>
             <a class="sidebar-link" data-bs-toggle="collapse" href="#moduloUsuarios" role="button" aria-expanded="false" aria-controls="moduloUsuarios">
                 <i class="bi bi-people me-3"></i> Usuarios

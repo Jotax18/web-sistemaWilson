@@ -5,6 +5,7 @@ import org.example.sistemawilson.model.*;
 import org.example.sistemawilson.util.MySQLConexion;
 
 import java.sql.*;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class IngresoStockImpl implements IngresoStockDAO {
             SELECT
                 i.id_ingreso_stock,
                 i.lote_stock,
+                i.estado,
                 i.fecha_ingreso,
                 u.id_usuario,
                 u.nombres
@@ -38,10 +40,14 @@ public class IngresoStockImpl implements IngresoStockDAO {
                 IngresoStock ingreso = new IngresoStock();
                 ingreso.setIdIngresoStock(rs.getInt("id_ingreso_stock"));
                 ingreso.setLoteStock(rs.getString("lote_stock"));
+                ingreso.setEstado(rs.getInt("estado"));
                 Usuario usu = new Usuario();
                 usu.setIdUsuario(rs.getInt("id_usuario"));
+                usu.setNombres(rs.getString("nombres"));
                 ingreso.setUsuario(usu);
-                ingreso.setFechaIngreso(rs.getTimestamp("fecha_ingreso").toString());
+                ingreso.setFechaIngreso(rs.getTimestamp("fecha_ingreso")
+                        .toLocalDateTime()
+                        .format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
                 lista.add(ingreso);
             }
         } catch (Exception e) {
