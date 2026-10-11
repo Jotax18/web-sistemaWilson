@@ -123,6 +123,24 @@
             </div>
         </div>
 
+        <!-- MÓDULO: CLIENTES -->
+        <div>
+            <a class="sidebar-link" data-bs-toggle="collapse" href="#moduloClientes" role="button" aria-expanded="false" aria-controls="moduloClientes">
+                <i class="bi bi-person-vcard me-3"></i> Clientes
+                <i class="bi bi-chevron-down ms-auto" style="font-size: 0.8rem;"></i>
+            </a>
+            <div class="collapse" id="moduloClientes">
+                <div class="bg-dark bg-opacity-25 py-1">
+                    <a href="ClienteServlet?action=listar" class="sidebar-sublink">
+                        <i class="bi bi-circle-fill me-2" style="font-size: 0.4rem;"></i> Gestión de Clientes
+                    </a>
+                    <a href="ClienteServlet?action=cargarFormularioRegistrar" class="sidebar-sublink">
+                        <i class="bi bi-circle-fill me-2" style="font-size: 0.4rem;"></i> Registrar Cliente
+                    </a>
+                </div>
+            </div>
+        </div>
+
         <!-- MÓDULO: USUARIOS -->
         <div>
             <a class="sidebar-link" data-bs-toggle="collapse" href="#moduloUsuarios" role="button" aria-expanded="false" aria-controls="moduloUsuarios">

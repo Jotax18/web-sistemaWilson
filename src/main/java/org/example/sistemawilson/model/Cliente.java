@@ -1,35 +1,37 @@
 package org.example.sistemawilson.model;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class Cliente {
-    DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    private Integer idCliente;
+    private Long idCliente;
     private String nombreRazonSocial;
     private String tipoDocumento;
-    private String fechaNacimiento = LocalDate.now().format(formato);
+    private String numeroDocumento;
+    private LocalDate fechaNacimiento;
     private String email;
     private String celular;
 
     public Cliente() {
     }
 
-    public Cliente(Integer idCliente, String nombreRazonSocial, String tipoDocumento, String fechaNacimiento, String email, String celular) {
+    public Cliente(Long idCliente, String nombreRazonSocial, String tipoDocumento,
+                   String numeroDocumento, LocalDate fechaNacimiento,
+                   String email, String celular) {
         this.idCliente = idCliente;
         this.nombreRazonSocial = nombreRazonSocial;
         this.tipoDocumento = tipoDocumento;
+        this.numeroDocumento = numeroDocumento;
         this.fechaNacimiento = fechaNacimiento;
         this.email = email;
         this.celular = celular;
     }
 
-    public Integer getIdCliente() {
+    public Long getIdCliente() {
         return idCliente;
     }
 
-    public void setIdCliente(Integer idCliente) {
+    public void setIdCliente(Long idCliente) {
         this.idCliente = idCliente;
     }
 
@@ -49,11 +51,19 @@ public class Cliente {
         this.tipoDocumento = tipoDocumento;
     }
 
-    public String getFechaNacimiento() {
+    public String getNumeroDocumento() {
+        return numeroDocumento;
+    }
+
+    public void setNumeroDocumento(String numeroDocumento) {
+        this.numeroDocumento = numeroDocumento;
+    }
+
+    public LocalDate getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(String fechaNacimiento) {
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 

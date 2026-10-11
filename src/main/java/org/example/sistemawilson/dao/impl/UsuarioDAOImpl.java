@@ -22,7 +22,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
         Usuario usuario = null;
         try {
             cn = MySQLConexion.getConnection();
-            String sql = "SELECT u.id_usuario, r.nombre_rol, u.username " +
+            String sql = "SELECT u.id_usuario, u.nombres, u.apellidos, r.nombre_rol, u.username " +
                     "FROM usuario u " +
                     "INNER JOIN rol AS r ON u.id_rol = r.id_rol " +
                     "WHERE u.estado = 1 AND u.username = ? AND u.clave = ?";
@@ -34,10 +34,12 @@ public class UsuarioDAOImpl implements UsuarioDAO {
                 Usuario user = new Usuario();
                 usuario = user;
                 user.setIdUsuario(rs.getInt(1));
+                user.setNombres(rs.getString(2));
+                user.setApellidos(rs.getString(3));
                 Rol rol = new Rol();
-                rol.setNombreRol(rs.getString(2));
+                rol.setNombreRol(rs.getString(4));
                 user.setRol(rol);
-                user.setUsername(rs.getString(3));
+                user.setUsername(rs.getString(5));
                 user.setEstado(Utils.ESTADO_ACTIVO);
             }
         } catch (Exception e) {

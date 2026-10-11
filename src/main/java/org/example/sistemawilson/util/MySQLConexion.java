@@ -10,15 +10,16 @@ public class MySQLConexion {
         Connection cn = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            String url = "jdbc:mysql://localhost/bdWilson?useTimezOne=true&serverTimezone=UTC";
+            String url = "jdbc:mysql://localhost:3307/bdWilson?useTimezone=true&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false";
             String usr = "root";
-            String psw = "Pepeluchitas1829$$";
+            String psw = "Pepeluchitas1829";
             cn = DriverManager.getConnection(url,usr,psw);
             System.out.println("conexion ok");
         } catch (ClassNotFoundException ex){
             System.out.println("No hay Driver!!");
         } catch (SQLException ex) {
-            System.out.println("Error con esta BD");
+            System.out.println("Error con esta BD: " + ex.getMessage());
+            ex.printStackTrace();
         }
         return cn;
     }
