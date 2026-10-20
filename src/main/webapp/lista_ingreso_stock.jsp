@@ -144,7 +144,7 @@
                                                     <span class="badge-activo"><i class="bi bi-check-circle me-1"></i>Activo</span>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <span class="badge-anulado"><i class="bi bi-x-circle me-1"></i>Anulado</span>
+                                                    <span class="badge-anulado"><i class="bi bi-x-circle me-1"></i>Inactivo</span>
                                                 </c:otherwise>
                                             </c:choose>
                                         </td>
@@ -156,16 +156,19 @@
                                                     <i class="bi bi-eye"></i>
                                                 </a>
                                                     <%-- Anular solo si está activo --%>
-                                                <c:if test="${ing.estado == 1}">
-                                                    <form action="IngresoStockServlet" method="post"
-                                                          onsubmit="return confirm('¿Está seguro de anular el ingreso ${ing.loteStock}? Esta acción revertirá el stock.')">
-                                                        <input type="hidden" name="action" value="anularIngreso">
-                                                        <input type="hidden" name="txtIdIngresoStock" value="${ing.idIngresoStock}">
-                                                        <button type="submit" class="btn btn-outline-danger btn-sm" title="Anular">
-                                                            <i class="bi bi-slash-circle"></i>
-                                                        </button>
-                                                    </form>
-                                                </c:if>
+                                                        <c:if test="${ing.estado == 1}">
+                                                            <button type="button" class="btn btn-outline-danger btn-sm"
+                                                                    onclick="abrirModalEstado(${ing.idIngresoStock}, 1)" title="Desactivar">
+                                                                <i class="bi bi-person-x"></i>
+                                                            </button>
+                                                        </c:if>
+
+                                                        <c:if test="${ing.estado == 0}">
+                                                            <button type="button" class="btn btn-outline-success btn-sm"
+                                                                    onclick="abrirModalEstado(${ing.idIngresoStock}, 0)" title="Activar">
+                                                                <i class="bi bi-person-check"></i>
+                                                            </button>
+                                                        </c:if>
                                             </div>
                                         </td>
                                     </tr>
@@ -183,5 +186,58 @@
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<div class="modal fade" id="modalCambiarEstado" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form action="IngresoStockServlet" method="post">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold text-dark">Confirmar Acción</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body text-center pt-4 pb-4">
+                    <p id="textoModalEstado" class="fs-5 mb-0"></p>
+
+                    <input type="hidden" name="action" value="cambiarEstadoIngreso">
+                    <input type="hidden" name="txtIdIngresoStock" id="modalInputId">
+                    <input type="hidden" name="estado" id="modalInputEstado">
+                </div>
+
+                <div class="modal-footer border-0 d-flex justify-content-center gap-2 pb-4">
+                    <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" id="btnConfirmarEstado" class="btn px-4">Sí, confirmar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function abrirModalEstado(idIngresoStock, estado) {
+        const textoMensaje = document.getElementById('textoModalEstado');
+        const btnConfirmar = document.getElementById('btnConfirmarEstado');
+
+        const inputId = document.getElementById('modalInputId');
+        const inputEstado = document.getElementById('modalInputEstado');
+
+        let nuevoEstadoEnviar = (estado == 1) ? 0 : 1;
+
+        if (estado == 1) {
+            textoMensaje.innerHTML = '¿Estás seguro de que deseas <strong>inabilitar</strong> el ingreso de stock';
+            btnConfirmar.className = "btn btn-danger px-4";
+        } else {
+            textoMensaje.innerHTML = '<strong> Este Ingreso ya fue anulado, contacte con el administrador</strong>';
+            btnConfirmar.className = "btn btn-danger px-4";
+        }
+
+        inputId.value = idIngresoStock;
+        inputEstado.value = nuevoEstadoEnviar;
+
+        const modalElement = document.getElementById('modalCambiarEstado');
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show();
+    }
+</script>
 </body>
 </html>

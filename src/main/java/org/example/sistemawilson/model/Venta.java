@@ -1,30 +1,36 @@
 package org.example.sistemawilson.model;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class Venta {
-    DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    private Integer idVenta;
+    private long idVenta;
+    private long numeroCorrelativo;
+    private long estado;
     private SerieComprobante serieComprobante;
     private Usuario usuario;
     private Cliente cliente;
-    private String fechaEmision = LocalDate.now().format(formato);
-    private double subtotalTotal;
-    private double igvTotal;
-    private double importeTotal;
-    private double descuentoGloval;
-    private int numeroCorrelativo;
-    private int estado;
+    private LocalDate fechaEmision;
+    private BigDecimal subtotalTotal;
+    private BigDecimal igvTotal;
+    private BigDecimal importeTotal;
+    private BigDecimal descuentoGlobal;
     private String tipoMoneda;
+
+    private List<DetalleVenta> listaDetalleVenta;
 
     public Venta() {
 
     }
 
-    public Venta(Integer idVenta, SerieComprobante serieComprobante, Usuario usuario, Cliente cliente, String fechaEmision, double subtotalTotal,
-                 double igvTotal, double importeTotal, double descuentoGloval, int numeroCorrelativo, int estado, String tipoMoneda) {
+    public Venta(long idVenta, long numeroCorrelativo, long estado, SerieComprobante serieComprobante, Usuario usuario,
+                 Cliente cliente, LocalDate fechaEmision, BigDecimal subtotalTotal, BigDecimal igvTotal,
+                 BigDecimal importeTotal, BigDecimal descuentoGlobal, String tipoMoneda, List<DetalleVenta> listaDetalleVenta) {
         this.idVenta = idVenta;
+        this.numeroCorrelativo = numeroCorrelativo;
+        this.estado = estado;
         this.serieComprobante = serieComprobante;
         this.usuario = usuario;
         this.cliente = cliente;
@@ -32,18 +38,33 @@ public class Venta {
         this.subtotalTotal = subtotalTotal;
         this.igvTotal = igvTotal;
         this.importeTotal = importeTotal;
-        this.descuentoGloval = descuentoGloval;
-        this.numeroCorrelativo = numeroCorrelativo;
-        this.estado = estado;
+        this.descuentoGlobal = descuentoGlobal;
         this.tipoMoneda = tipoMoneda;
+        this.listaDetalleVenta = listaDetalleVenta;
     }
 
-    public Integer getIdVenta() {
+    public long getIdVenta() {
         return idVenta;
     }
 
-    public void setIdVenta(Integer idVenta) {
+    public void setIdVenta(long idVenta) {
         this.idVenta = idVenta;
+    }
+
+    public long getNumeroCorrelativo() {
+        return numeroCorrelativo;
+    }
+
+    public void setNumeroCorrelativo(long numeroCorrelativo) {
+        this.numeroCorrelativo = numeroCorrelativo;
+    }
+
+    public long getEstado() {
+        return estado;
+    }
+
+    public void setEstado(long estado) {
+        this.estado = estado;
     }
 
     public SerieComprobante getSerieComprobante() {
@@ -70,60 +91,52 @@ public class Venta {
         this.cliente = cliente;
     }
 
-    public String getFechaEmision() {
+    public LocalDate getFechaEmision() {
         return fechaEmision;
     }
 
-    public void setFechaEmision(String fechaEmision) {
+    public void setFechaEmision(LocalDate fechaEmision) {
         this.fechaEmision = fechaEmision;
     }
 
-    public double getSubtotalTotal() {
+    public BigDecimal getSubtotalTotal() {
         return subtotalTotal;
     }
 
-    public void setSubtotalTotal(double subtotalTotal) {
+    public void setSubtotalTotal(BigDecimal subtotalTotal) {
         this.subtotalTotal = subtotalTotal;
     }
 
-    public double getIgvTotal() {
+    public BigDecimal getIgvTotal() {
         return igvTotal;
     }
 
-    public void setIgvTotal(double igvTotal) {
+    public void setIgvTotal(BigDecimal igvTotal) {
         this.igvTotal = igvTotal;
     }
 
-    public double getImporteTotal() {
+    public BigDecimal getDescuentoGlobal() {
+        return descuentoGlobal;
+    }
+
+    public void setDescuentoGlobal(BigDecimal descuentoGlobal) {
+        this.descuentoGlobal = descuentoGlobal;
+    }
+
+    public BigDecimal getImporteTotal() {
         return importeTotal;
     }
 
-    public void setImporteTotal(double importeTotal) {
+    public void setImporteTotal(BigDecimal importeTotal) {
         this.importeTotal = importeTotal;
     }
 
-    public double getDescuentoGloval() {
-        return descuentoGloval;
+    public List<DetalleVenta> getListaDetalleVenta() {
+        return listaDetalleVenta;
     }
 
-    public void setDescuentoGloval(double descuentoGloval) {
-        this.descuentoGloval = descuentoGloval;
-    }
-
-    public int getNumeroCorrelativo() {
-        return numeroCorrelativo;
-    }
-
-    public void setNumeroCorrelativo(int numeroCorrelativo) {
-        this.numeroCorrelativo = numeroCorrelativo;
-    }
-
-    public int getEstado() {
-        return estado;
-    }
-
-    public void setEstado(int estado) {
-        this.estado = estado;
+    public void setListaDetalleVenta(List<DetalleVenta> listaDetalleVenta) {
+        this.listaDetalleVenta = listaDetalleVenta;
     }
 
     public String getTipoMoneda() {

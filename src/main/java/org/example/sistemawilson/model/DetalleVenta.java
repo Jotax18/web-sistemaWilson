@@ -1,18 +1,20 @@
 package org.example.sistemawilson.model;
 
+import java.math.BigDecimal;
+
 public class DetalleVenta {
     private Venta venta;
     private Producto producto;
     private int cantidad;
-    private double precioVentaUnitario;
-    private double precioCompraUnitario;
-    private double descuentoUnitario;
-    private double totalIgv;
+    private BigDecimal precioVentaUnitario;
+    private BigDecimal precioCompraUnitario;
+    private BigDecimal descuentoUnitario;
+    private BigDecimal totalIgv;
 
     public DetalleVenta() {
     }
 
-    public DetalleVenta(Venta venta, Producto producto, int cantidad, double precioVentaUnitario, double precioCompraUnitario, double descuentoUnitario, double totalIgv) {
+    public DetalleVenta(Venta venta, Producto producto, int cantidad, BigDecimal precioVentaUnitario, BigDecimal precioCompraUnitario, BigDecimal descuentoUnitario, BigDecimal totalIgv) {
         this.venta = venta;
         this.producto = producto;
         this.cantidad = cantidad;
@@ -46,35 +48,35 @@ public class DetalleVenta {
         this.cantidad = cantidad;
     }
 
-    public double getPrecioVentaUnitario() {
+    public BigDecimal getPrecioVentaUnitario() {
         return precioVentaUnitario;
     }
 
-    public void setPrecioVentaUnitario(double precioVentaUnitario) {
+    public void setPrecioVentaUnitario(BigDecimal precioVentaUnitario) {
         this.precioVentaUnitario = precioVentaUnitario;
     }
 
-    public double getPrecioCompraUnitario() {
+    public BigDecimal getPrecioCompraUnitario() {
         return precioCompraUnitario;
     }
 
-    public void setPrecioCompraUnitario(double precioCompraUnitario) {
+    public void setPrecioCompraUnitario(BigDecimal precioCompraUnitario) {
         this.precioCompraUnitario = precioCompraUnitario;
     }
 
-    public double getDescuentoUnitario() {
+    public BigDecimal getDescuentoUnitario() {
         return descuentoUnitario;
     }
 
-    public void setDescuentoUnitario(double descuentoUnitario) {
+    public void setDescuentoUnitario(BigDecimal descuentoUnitario) {
         this.descuentoUnitario = descuentoUnitario;
     }
 
-    public double getTotalIgv() {
+    public BigDecimal getTotalIgv() {
         return totalIgv;
     }
 
-    public void setTotalIgv(double totalIgv) {
+    public void setTotalIgv(BigDecimal totalIgv) {
         this.totalIgv = totalIgv;
     }
 }

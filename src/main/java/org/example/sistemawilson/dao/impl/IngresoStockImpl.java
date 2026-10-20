@@ -31,7 +31,7 @@ public class IngresoStockImpl implements IngresoStockDAO {
             FROM ingreso_stock i
             INNER JOIN usuario u
             ON i.id_usuario = u.id_usuario
-            WHERE i.estado = 1
+            WHERE i.estado IN (0, 1)
             ORDER BY i.id_ingreso_stock DESC
             """;
             psm = cn.prepareStatement(sql);
@@ -67,24 +67,40 @@ public class IngresoStockImpl implements IngresoStockDAO {
     @Override
     public boolean registrarStock(IngresoStock ingresoStock) {
         try {
+            // hacemos la conexion con el driver jdbc
             cn = MySQLConexion.getConnection();
+            // ponemos la transaccion para que todavia no guarde cambios
             cn.setAutoCommit(false);
+            // creamos el query para insertar en la cabecera
+            // los datos que siempre estaran en cada transaccion para cada ingreso de stock(ingreso_stock)
             String sql = "INSERT INTO ingreso_stock (lote_stock, id_usuario) VALUES (?,?)";
             // Permite recuperar el ID autogenerado por la base de datos
-            // después de insertar la cabecera del ingreso de stock.
+            // después de insertar la cabecera del ingreso de stock por ejemplo id_ingreso_stock = 1.
             psm = cn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            // le decimos al psm que prepare la consulta de sql pero a la vez le decimos que hay un id autogenerado
+            // por lo que RETURN_GENERATED_KEYS nos permitira recuperarlo despues
             psm.setString(1, ingresoStock.getLoteStock());
             psm.setInt(2, ingresoStock.getUsuario().getIdUsuario());
+            // ejecutamos executeUpdate para registrar y actualizar la informacion
             psm.executeUpdate();
+            // le decimos a resulset que queremos que tenga la informacion de psm y ademas el id autogenerado de psm
+            // para que luego nos devuelva las filas de cada columna
             rs = psm.getGeneratedKeys();
+
+            // declaramos idIngreso = 0 y lo inicializamos con 0 para darle un valor mas adenlante
             int idIngreso = 0;
+            //le decimos al resulset que pase al siguiente
             if (rs.next()){
+                //le damos el valor a idIngreso del resulset de la primera columna que es el idIngesoStock autogenerado de hace un rato
                 idIngreso = rs.getInt(1);
             }
             if(idIngreso == 0){
                 throw new SQLException("No se pudo obtener el ID del ingreso.");
             }
+            // hacemos un for a DetalleIngresoStock para setear y agregar de la misma forma dentro del for cuantas veces el usuario
+            // quira agregar detalles al ingreso
             for(DetalleIngresoStock d : ingresoStock.getListaDetalle()){
+                //hacemos un query para insertar ahora si en el detalle
                 String sql1 = "INSERT INTO detalle_ingreso_stock (id_ingreso_stock, id_producto, cantidad, costo_unitario, subtotal) VALUES (?,?,?,?,?)";
                 PreparedStatement psmDetalle = cn.prepareStatement(sql1);
                 psmDetalle.setInt(1, idIngreso);
@@ -131,7 +147,7 @@ public class IngresoStockImpl implements IngresoStockDAO {
     }
 
     @Override
-    public boolean anularIngresoStock (int idIngresoStock){
+    public boolean anularIngresoStock (int idIngresoStock, int estado){
         try {
             cn = MySQLConexion.getConnection();
             //0. siempre cuando es transaccion y comienza le decimos a la conexion que desactive cambios para prevenir
@@ -181,6 +197,7 @@ public class IngresoStockImpl implements IngresoStockDAO {
             }
             System.out.println("Error al anular ingreso Stock, transaccion revertida");
             e.printStackTrace();
+            return false;
         } finally {
             try {
                 if (cn != null) {
@@ -194,7 +211,6 @@ public class IngresoStockImpl implements IngresoStockDAO {
                 e.printStackTrace();
             }
         }
-        return false;
     }
 
     @Override

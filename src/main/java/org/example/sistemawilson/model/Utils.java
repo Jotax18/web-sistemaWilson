@@ -1,5 +1,7 @@
 package org.example.sistemawilson.model;
 
+import java.math.BigDecimal;
+
 public final class Utils {
     private Utils(){
         throw new UnsupportedOperationException("Esta es una clase de Utildad y no puede ser isntanciada");
@@ -11,5 +13,8 @@ public final class Utils {
     //ROL USUARIO
     public static final String ROL_ADMIN = "admin";
     public static final String ROL_VENDEDOR = "vendedor";
+
+    //TASA IGV
+    public static final BigDecimal TASA_IGV = new BigDecimal("0.18");
 
 }

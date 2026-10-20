@@ -21,6 +21,7 @@ import java.util.List;
 public class IngresoStockServlet extends HttpServlet {
 
     IngresoStockDAO daoIngreso = new IngresoStockImpl();
+    IngresoStockImpl daoImp = new IngresoStockImpl();
     UsuarioDAO daoUsuario = new UsuarioDAOImpl();
     ProductoDAO daoProducto = new ProductoDAOImpl();
 
@@ -34,7 +35,7 @@ public class IngresoStockServlet extends HttpServlet {
 
         switch (action) {
             case "listar":
-                List<IngresoStock> lista = daoIngreso.listarIngresoStock();
+                List<IngresoStock> lista = daoImp.listarIngresoStock();
                 req.setAttribute("lista", lista);
                 req.getRequestDispatcher("lista_ingreso_stock.jsp").forward(req, resp);
                 break;
@@ -132,10 +133,11 @@ public class IngresoStockServlet extends HttpServlet {
                 }
                 break;
 
-            case "anularIngreso":
+            case "cambiarEstadoIngreso":
                 int id = Integer.parseInt(req.getParameter("txtIdIngresoStock"));
-                boolean anular = daoIngreso.anularIngresoStock(id);
-                if (!anular) {
+                int estado = Integer.parseInt(req.getParameter("estado"));
+                boolean cambiarEstado = daoIngreso.anularIngresoStock(id, estado);
+                if (!cambiarEstado) {
                     req.setAttribute("error", "Hubo un problema al anular el ingreso.");
                     req.getRequestDispatcher("lista_ingreso_stock.jsp").forward(req, resp);
                 } else {
