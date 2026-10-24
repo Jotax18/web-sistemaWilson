@@ -146,4 +146,34 @@ public class Venta {
     public void setTipoMoneda(String tipoMoneda) {
         this.tipoMoneda = tipoMoneda;
     }
+
+    //METOOD PARA CALCULAR EL SUBTOTAL
+    public BigDecimal calcularSubtotal(){
+        BigDecimal subtotal = BigDecimal.ZERO;
+        for(DetalleVenta d : listaDetalleVenta){
+            subtotal = subtotal.add(d.calcularBaseFila());
+        }
+        return subtotal;
+    }
+
+    //METODO PARA CALCULAR EL IGV TOTAL
+    public BigDecimal calcularIgvTotal(){
+        BigDecimal igvTotal = BigDecimal.ZERO;
+        for (DetalleVenta d : listaDetalleVenta){
+            igvTotal = igvTotal.add(d.calcularIgvFila());
+        }
+        return igvTotal;
+    }
+
+    //METODO PARA CALCULAR EL TOTAL IMPORTE TOTAL
+    public BigDecimal calcularImporteTotal(){
+        return  calcularSubtotal().add(calcularIgvTotal());
+    }
+
+    //METODO PARA ACTUALIZAR TOTALES E INDTRODUCIR LOS VALROES DIRECTAMENTE A LA VARIABLE CONTRUCTOR
+    public void actualizarTotales() {
+        this.subtotalTotal = calcularSubtotal();
+        this.igvTotal = calcularIgvTotal();
+        this.importeTotal = calcularImporteTotal();
+    }
 }

@@ -1,6 +1,7 @@
 package org.example.sistemawilson.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class DetalleVenta {
     private Venta venta;
@@ -78,5 +79,24 @@ public class DetalleVenta {
 
     public void setTotalIgv(BigDecimal totalIgv) {
         this.totalIgv = totalIgv;
+    }
+
+
+    //METODO PARA CALCULAR EL TOTAL DE LA FILA
+    public BigDecimal calcularTotalFila() {
+        BigDecimal resultadoFila = precioVentaUnitario.multiply(BigDecimal.valueOf(cantidad));
+        return resultadoFila;
+    }
+
+    //METODO PARA CALCULAR LA BASE DEL IGV (OP, GRAVADA)
+    public BigDecimal calcularBaseFila() {
+        BigDecimal resultadoBase = calcularTotalFila().divide(Utils.TASA_IGV_1_18, 2, RoundingMode.HALF_UP);
+        return resultadoBase;
+    }
+
+    //METODO PARA CALCULAR EL IGV DE LA FILA
+    public BigDecimal calcularIgvFila(){
+        BigDecimal resultadoIGV = calcularBaseFila().multiply(Utils.TASA_IGV_0_18);
+        return resultadoIGV;
     }
 }

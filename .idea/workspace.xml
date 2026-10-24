@@ -12,13 +12,9 @@
   <component name="ChangeListManager">
     <list default="true" id="6ccff246-1ae6-40a3-86b5-071bc23b830e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/sistemawilson/controller/IngresoStockServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/sistemawilson/controller/IngresoStockServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/sistemawilson/dao/IngresoStockDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/sistemawilson/dao/IngresoStockDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/sistemawilson/dao/impl/IngresoStockImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/sistemawilson/dao/impl/IngresoStockImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/sistemawilson/model/DetalleVenta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/sistemawilson/model/DetalleVenta.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/sistemawilson/model/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/sistemawilson/model/Utils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/sistemawilson/model/Venta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/sistemawilson/model/Venta.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/lista_ingreso_stock.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/lista_ingreso_stock.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

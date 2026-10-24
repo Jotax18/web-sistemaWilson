@@ -15,6 +15,7 @@ public final class Utils {
     public static final String ROL_VENDEDOR = "vendedor";
 
     //TASA IGV
-    public static final BigDecimal TASA_IGV = new BigDecimal("0.18");
+    public static final BigDecimal TASA_IGV_0_18 = new BigDecimal("0.18");
+    public static final BigDecimal TASA_IGV_1_18 = new BigDecimal("1.18");
 
 }
